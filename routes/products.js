@@ -7,13 +7,15 @@ const productDB = require('../db/dbproducts');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
+const homeRender = {
+  showProducts: true,
+  products:productDB.all(),
+}
+
 
 /****** METHOD STUFF******/
 router.get(`/`, (req, res) => {
-  res.render('home', {
-    showProducts: true,
-    products: productDB.all(),
-  })
+  res.render('home', homeRender)
   // res.send(`Product Page`);
 });
 
@@ -50,8 +52,19 @@ router.put(`/:id`, (req, res) => {
       res.render('id', {
         product: productDB.all()[i],
       });
-    } else {
-      res.render('home');
+      break;
+    } 
+  }
+});
+//if ID doesn't exist, server hangs, need to render home but will throw header error if array length is > 1
+
+//delete items
+router.delete(`/:id`, (req, res) => {
+  let id = req.params.id;
+  for (let i = 0; i < productDB.all().length; i++){
+    if (Number(id) === productDB.all()[i].id){
+      productDB.remove(i);
+      res.render(`home`, homeRender);
     }
   }
 })
