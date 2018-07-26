@@ -41,11 +41,22 @@ router.post(`/`, (req, res) => {
   }
 });
 
+//put items
+router.put(`/:id`, (req, res) => {
+  let id = req.params.id;
+  for (let i = 0; i < productDB.all().length; i++){
+    if (id === productDB.all()[i].id) {
+      console.log('yup');
+    }
+  }
+})
+
+
 
 module.exports = router;
 
 /****** HELPER STUFF******/
 function generateId() {
-  let randomId = Math.floor(Math.random() * 1000);
+  let randomId = Math.floor(Math.random() * 10);
   return randomId;
 }
