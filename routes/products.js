@@ -21,7 +21,7 @@ router.get(`/`, (req, res) => {
 router.post(`/`, (req, res) => {
   if (!req.body.name) {
     res.status(404).send('Product has no name!');
-    
+
   } else if (isNaN(parseInt(req.body.price))) {
     res.status(404).send('Please input a number for price');
 
@@ -45,8 +45,13 @@ router.post(`/`, (req, res) => {
 router.put(`/:id`, (req, res) => {
   let id = req.params.id;
   for (let i = 0; i < productDB.all().length; i++){
-    if (id === productDB.all()[i].id) {
-      console.log('yup');
+    if (Number(id) === productDB.all()[i].id){
+      productDB.all()[i].name = req.body.name;
+      res.render('id', {
+        product: productDB.all()[i],
+      });
+    } else {
+      res.render('home');
     }
   }
 })
@@ -59,4 +64,4 @@ module.exports = router;
 function generateId() {
   let randomId = Math.floor(Math.random() * 10);
   return randomId;
-}
+};
