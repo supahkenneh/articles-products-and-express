@@ -65,6 +65,7 @@ router.delete(`/:id`, (req, res) => {
     if (Number(id) === productDB.all()[i].id){
       productDB.remove(i);
       res.render(`home`, homeRender);
+      break;
     }
   }
 })
