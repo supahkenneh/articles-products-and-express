@@ -3,19 +3,37 @@ const app = express();
 const bodyParser = require('body-parser');
 const articles = require('./routes/articles');
 const products = require(`./routes/products`);
+const exphbs = require('express-handlebars');
 
 const PORT = process.env.port || 3005;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+
 app.get(`/`, (req, res) => {
-  res.send(`HELLO WORLD!`);
+  const locals = {
+    greeting: 'Aloha',
+  }
+  res.render('home', locals);
 });
 
+
+/****** HANDLEBAR STUFF******/
+app.engine('.hbs', exphbs({
+  defaultLayout: 'main',
+  extname: '.hbs'
+}));
+
+app.set('view engine', '.hbs');
+
+
+/****** ROUTE STUFF******/
 app.use(`/articles`, articles);
 app.use(`/products`, products)
 
+
+/****** Catch ALL, ERROR, and LISTEN******/
 app.get('*', (req, res) => {
   res.send('HELLO WORLD?');
 });
