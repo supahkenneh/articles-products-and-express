@@ -12,10 +12,11 @@ app.use(bodyParser.json());
 
 
 app.get(`/`, (req, res) => {
-  const locals = {
-    greeting: 'Aloha',
-  }
-  res.render('home', locals);
+  // const locals = {
+  //   greeting: 'Aloha',
+  // }
+  // res.render('main', locals);
+  res.send('WORK IN PROGRESS');
 });
 
 
