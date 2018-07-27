@@ -40,7 +40,16 @@ router.get(`/:id`, (req, res) => {
 });
 
 router.get(`/:id/edit`, (req, res) => {
-  res.render('edit', locals);
+  let renderItem;
+  productDB.all().map(elem => {
+    if(elem.id === Number(req.params.id)) {
+      renderItem = elem;
+      return renderItem
+    }
+  })
+  res.render('edit', {
+    product: renderItem,
+  });
 });
 
 
@@ -85,13 +94,12 @@ router.delete(`/:id`, (req, res) => {
     if (elem.id === Number(id)) {
       productDB.remove(elem);
       locals.showProducts = true;
-      locals.deleteError = true;
+      locals.deleted = true;
     }
   })
-  if (locals.deleteError === false) {
+  if (locals.deleted === false) {
     res.render(`new`, {
       message: `Item doesn't exist, please enter a new item`,
-      deleteError: true,
     });
     resetLocals();
   } else {

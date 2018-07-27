@@ -6,15 +6,15 @@
 <form enctype="application/x-www-form-urlencoded" method="POST" action="/products">
   <h1>Name:
     <br>
-    <input type="text" name="name">
+    <input type="text" name="name" value={{product.name}}>
   </h1>
   <h1>Price:
     <br>
-    <input type="text" name="price">
+    <input type="text" name="price" value={{product.price}}>
   </h1>
   <h1>Inventory:
     <br>
-    <input type="text" name="inventory">
+    <input type="text" name="inventory" value={{product.inventory}}>
   </h1>
   <input type="submit" value="Submit">
 </form>
