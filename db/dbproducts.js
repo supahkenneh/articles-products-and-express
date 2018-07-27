@@ -18,16 +18,9 @@ function add(reqData) {
   productList.push(newProduct);
 };
 
-function remove(itemId) {
-  const findIndex = productList.findIndex(elem => {
-    return Number(elem.id) === Number(itemId);
-  });
-  if (productList[findIndex]){
-    productList.splice(findIndex, 1);
-    return true;
-  } else {
-    return false;
-  }
+function remove(index) {
+  let itemIndex = productList.indexOf(index);
+  productList.splice(itemIndex, 1);
 };
 
 

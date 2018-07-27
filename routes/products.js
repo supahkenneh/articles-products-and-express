@@ -7,7 +7,7 @@ const productDB = require('../db/dbproducts');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-let urlEncoder = bodyParser.urlencoded({ extended: false })
+let urlEncoder = bodyParser.urlencoded({extended: false})
 
 let locals = {
   showProducts: false,
@@ -81,12 +81,24 @@ router.put(`/:id`, (req, res) => {
 //delete items
 router.delete(`/:id`, (req, res) => {
   let id = req.params.id;
-  productDB.remove(id);
-  if (productDB.remove(id) === true) {
+  productDB.all().map(elem => {
+    if (elem.id === Number(id)) {
+      productDB.remove(elem);
+      locals.showProducts = true;
+      locals.deleteError = true;
+    }
+  })
+  if (locals.deleteError === false) {
+    res.render(`new`, {
+      message: `Item doesn't exist, please enter a new item`,
+      deleteError: true,
+    });
+    resetLocals();
+  } else {
     locals.message = 'Item successfully deleted'
     res.render('index', locals);
-  } 
-    res.status(404).send('Page Not Found');
+  }
+  resetLocals();
 });
 
 
