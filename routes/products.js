@@ -1,4 +1,3 @@
-const methodOverride = require('method-override');
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
@@ -13,14 +12,14 @@ let urlEncoder = bodyParser.urlencoded({extended: false})
 let locals = {
   showProducts: false,
   products: productDB.all(),
-  inputError: false,
-  itemFound: false,
   deleteError: false,
+  message: null,
 }
 
 
 /****** METHOD STUFF******/
 router.get(`/`, (req, res) => {
+  locals.showProducts = true;
   res.render('index', locals)
 });
 
@@ -47,28 +46,21 @@ router.get(`/:id/edit`, (req, res) => {
 
 //post items
 router.post(`/`, urlEncoder, (req, res) => {
-  console.log(req.body);
+  console.log(req.body)
   if (!req.body.name) {
-    locals.inputError = true;
+    locals.message = "Input error! Please enter a name, price, and inventory";
     res.redirect(303, `/products/new`);
 
   } else if (isNaN(parseInt(req.body.price))) {
-    locals.inputError = true;
+    locals.message = "Input error! Please enter a name, price, and inventory";
     res.redirect(303, `/products/new`);
 
   } else if (req.body.inventory < 1) {
-    locals.inputError = true;
+    locals.message = "Input error! Please enter a name, price, and inventory";
     res.redirect(303, `/products/new`);
 
   } else {
-    console.log(req.body);
-    let newProduct = {};
-    newProduct.id = generateId();
-    newProduct.name = req.body.name;
-    newProduct.price = Number(req.body.price);
-    newProduct.inventory = Number(req.body.inventory);
-
-    productDB.add(newProduct);
+    productDB.add(req.body);
     console.log(productDB.all());
     locals.showProducts = true;
     res.render(`index`, locals);
@@ -89,6 +81,7 @@ router.put(`/:id`, (req, res) => {
     res.redirect(303, `/products/${req.params.id}/edit`);
   } else {
     locals.showProducts = true;
+    locals.message = 'Item not found, please edit information below...'
     res.redirect(303, `/products/${req.params.id}`)
   }
 });
@@ -99,39 +92,31 @@ router.delete(`/:id`, (req, res) => {
   let id = req.params.id;
   productDB.all().map(elem => {
     if (elem.id === Number(id)) {
-      console.log(elem);
       productDB.remove(elem);
-      console.log(productDB.all());
       locals.showProducts = true;
       locals.deleteError = true;
     }
   })
   if (locals.deleteError === false) {
     res.render(`new`, {
+      message: `Item doesn't exist, please enter a new item`,
       deleteError: true,
     });
   } else {
+    locals.message = 'Item successfully deleted'
     res.render('index', locals);
   }
 });
 
-/****** METHOD OVERRIDE STUFF******/
-router.use(methodOverride());
 
 module.exports = router;
 
 /****** HELPER STUFF******/
-function generateId() {
-  let randomId = Math.floor(Math.random() * 10);
-  return randomId;
-};
 
 function resetLocals() {
   locals = {
     showProducts: false,
     products: productDB.all(),
-    inputError: false,
-    itemFound: false,
     deleteError: false,
   }
 }

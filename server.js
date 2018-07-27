@@ -11,7 +11,13 @@ const PORT = process.env.port || 3005;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(methodOverride('_method'));
+app.use(methodOverride((req, res) => {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    let method = req.body._method;
+    delete req.body._method;
+    return method;
+  }
+}));
 
 const indexPage = {
   showProducts: true,

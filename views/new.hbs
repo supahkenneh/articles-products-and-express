@@ -1,10 +1,14 @@
 <h1>Input New Product Information</h1>
-{{#if inputError}}
+{{!-- {{#if inputError}}
 <h4>Input errors found! Please ensure that your product has a name, a price, and inventory</h4>
-{{/if}} {{#if deleteError}}
+{{/if}} 
+{{#if deleteError}}
 <h4>Item doesn't exist, please enter new item</h4>
-{{/if}}
-<form enctype="application/x-www-form-urlencoded" method="POST" action="/products">
+{{/if}} --}}
+<h3>
+  {{message}}
+</h3>
+<form enctype="application/x-www-form-urlencoded" method="post" action="/products">
   <h1>Name:
     <br>
     <input type="text" name="name">
