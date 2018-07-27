@@ -1,3 +1,4 @@
+const methodOverride = require('method-override');
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
@@ -6,6 +7,8 @@ const productDB = require('../db/dbproducts');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
+
+let urlEncoder = bodyParser.urlencoded({extended: false})
 
 let locals = {
   showProducts: false,
@@ -43,7 +46,8 @@ router.get(`/:id/edit`, (req, res) => {
 
 
 //post items
-router.post(`/`, (req, res) => {
+router.post(`/`, urlEncoder, (req, res) => {
+  console.log(req.body);
   if (!req.body.name) {
     locals.inputError = true;
     res.redirect(303, `/products/new`);
@@ -57,6 +61,7 @@ router.post(`/`, (req, res) => {
     res.redirect(303, `/products/new`);
 
   } else {
+    console.log(req.body);
     let newProduct = {};
     newProduct.id = generateId();
     newProduct.name = req.body.name;
@@ -110,7 +115,8 @@ router.delete(`/:id`, (req, res) => {
   }
 });
 
-
+/****** METHOD OVERRIDE STUFF******/
+router.use(methodOverride());
 
 module.exports = router;
 

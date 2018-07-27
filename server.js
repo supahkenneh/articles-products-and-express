@@ -1,4 +1,5 @@
 const express = require('express');
+const methodOverride = require('method-override');
 const app = express();
 const bodyParser = require('body-parser');
 const articles = require('./routes/articles');
@@ -10,6 +11,7 @@ const PORT = process.env.port || 3005;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(methodOverride('_method'));
 
 const indexPage = {
   showProducts: true,

@@ -4,18 +4,18 @@
 {{/if}} {{#if deleteError}}
 <h4>Item doesn't exist, please enter new item</h4>
 {{/if}}
-<form>
-  <label for="name">Name: </label>
-  <br>
-  <input type="text" placeholder="Enter product name" id="id_input">
-  <br>
-  <label for="price">Price: </label>
-  <br>
-  <input type="text" placeholder="Enter product price" id="price_input">
-  <br>
-  <label for="inventory">Inventory: </label>
-  <br>
-  <input type="text" placeholder="Enter inventory amount" id="inventory_input">
-  <br>
-  <button id="submit">Submit</button>
+<form enctype="application/x-www-form-urlencoded" method="POST" action="/products">
+  <h1>Name:
+    <br>
+    <input type="text" name="name">
+  </h1>
+  <h1>Price:
+    <br>
+    <input type="text" name="price">
+  </h1>
+  <h1>Inventory:
+    <br>
+    <input type="text" name="inventory">
+  </h1>
+  <input type="submit" value="Submit">
 </form>
