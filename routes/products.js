@@ -7,11 +7,11 @@ const productDB = require('../db/dbproducts');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-const locals = {
+let locals = {
   showProducts: false,
   products: productDB.all(),
   inputError: false,
-  itemNotFound: false,
+  itemFound: false,
   deleteError: false,
 }
 
@@ -27,18 +27,18 @@ router.get(`/new`, (req, res) => {
 
 router.get(`/:id`, (req, res) => {
   let id = req.params.id;
-  locals.showProducts = true;
   productDB.all().map(elem => {
     if (elem.id === Number(id)) {
       res.render(`product`, {
         product: elem,
+        showProducts: true,
       })
     }
   })
 });
 
 router.get(`/:id/edit`, (req, res) => {
-  res.render('edit', locals);
+  res.render('edit');
 });
 
 
@@ -72,16 +72,18 @@ router.post(`/`, (req, res) => {
 
 //put items
 router.put(`/:id`, (req, res) => {
+  resetLocals();
   let id = req.params.id;
   productDB.all().map(elem => {
     if (elem.id === Number(id)) {
       elem.name = req.body.name;
-      locals.itemNotFound = true;
+      locals.itemFound = true;
     }
   });
-  if (locals.itemNotFound === false) {
+  if (locals.itemFound === false) {
     res.redirect(303, `/products/${req.params.id}/edit`);
   } else {
+    locals.showProducts = true;
     res.redirect(303, `/products/${req.params.id}`)
   }
 });
@@ -93,6 +95,7 @@ router.delete(`/:id`, (req, res) => {
     if (elem.id === Number(id)) {
       productDB.remove(elem);
       locals.showProducts = true;
+      locals.deleteError = true;
     }
   })
   if (locals.deleteError === false) {
@@ -111,3 +114,13 @@ function generateId() {
   let randomId = Math.floor(Math.random() * 10);
   return randomId;
 };
+
+function resetLocals() {
+  locals = {
+    showProducts: false,
+    products: productDB.all(),
+    inputError: false,
+    itemFound: false,
+    deleteError: false,
+  }
+}
