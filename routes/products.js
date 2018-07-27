@@ -90,18 +90,23 @@ router.put(`/:id`, (req, res) => {
 
 //delete items
 router.delete(`/:id`, (req, res) => {
+  resetLocals();
   let id = req.params.id;
   productDB.all().map(elem => {
     if (elem.id === Number(id)) {
+      console.log(elem);
       productDB.remove(elem);
+      console.log(productDB.all());
       locals.showProducts = true;
       locals.deleteError = true;
     }
   })
   if (locals.deleteError === false) {
-    res.render('index', locals);
+    res.render(`new`, {
+      deleteError: true,
+    });
   } else {
-    res.redirect(303, `/products/new`);
+    res.render('index', locals);
   }
 });
 

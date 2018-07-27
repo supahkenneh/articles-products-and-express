@@ -9,7 +9,8 @@ function add(item) {
 };
 
 function remove(index) {
-  productList.splice(index, 1);
+  let itemIndex = productList.indexOf(index);
+  productList.splice(itemIndex, 1);
 };
 
 
