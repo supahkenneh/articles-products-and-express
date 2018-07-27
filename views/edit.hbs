@@ -1,6 +1,9 @@
-<h1>Input Product Information</h1>
-<input type="text" placeholder="Enter product name" id="id_input">
+<h1>Edit Product Information</h1>
+{{#if itemNotFound}}
+  <h4>Item wasn't found! Please edit item information below...</h4>
+{{/if}}
+<input type="text" placeholder="Product name" id="id_input">
 <br>
-<input type="text" placeholder="Enter product price" id="price_input">
+<input type="text" placeholder="Product price" id="price_input">
 <br>
-<input type="text" placeholder="Enter inventory amount" id="inventory_input">
+<input type="text" placeholder="Inventory amount" id="inventory_input">

@@ -7,23 +7,27 @@ const productDB = require('../db/dbproducts');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-const indexPage = {
-  showProducts: true,
+const locals = {
+  showProducts: false,
   products: productDB.all(),
+  inputError: false,
+  itemNotFound: false,
+  deleteError: false,
 }
 
 
 /****** METHOD STUFF******/
 router.get(`/`, (req, res) => {
-  res.render('index', indexPage)
+  res.render('index', locals)
 });
 
 router.get(`/new`, (req, res) => {
-  res.render('new');
+  res.render('new', locals);
 });
 
 router.get(`/:id`, (req, res) => {
   let id = req.params.id;
+  locals.showProducts = true;
   productDB.all().map(elem => {
     if (elem.id === Number(id)) {
       res.render(`product`, {
@@ -34,19 +38,22 @@ router.get(`/:id`, (req, res) => {
 });
 
 router.get(`/:id/edit`, (req, res) => {
-  res.render('edit');
+  res.render('edit', locals);
 });
 
 
 //post items
 router.post(`/`, (req, res) => {
   if (!req.body.name) {
+    locals.inputError = true;
     res.redirect(303, `/products/new`);
 
   } else if (isNaN(parseInt(req.body.price))) {
+    locals.inputError = true;
     res.redirect(303, `/products/new`);
 
   } else if (req.body.inventory < 1) {
+    locals.inputError = true;
     res.redirect(303, `/products/new`);
 
   } else {
@@ -58,43 +65,42 @@ router.post(`/`, (req, res) => {
 
     productDB.add(newProduct);
     console.log(productDB.all());
-    res.status(200).send('Product successfully added!');
+    locals.showProducts = true;
+    res.render(`index`, locals);
   }
 });
 
 //put items
 router.put(`/:id`, (req, res) => {
-  let putSuccessful = false;
   let id = req.params.id;
   productDB.all().map(elem => {
     if (elem.id === Number(id)) {
       elem.name = req.body.name;
-      putSuccessful = true;
-      res.redirect(303, `/products/${req.params.id}`)
+      locals.itemNotFound = true;
     }
-    if (putSuccessful === false) {
-      res.redirect(303, `/products/${req.params.id}/edit`);
-    }
-  })
+  });
+  if (locals.itemNotFound === false) {
+    res.redirect(303, `/products/${req.params.id}/edit`);
+  } else {
+    res.redirect(303, `/products/${req.params.id}`)
+  }
 });
-//if ID doesn't exist, server hangs, need to render home but will throw header error if array length is > 1
 
 //delete items
 router.delete(`/:id`, (req, res) => {
-  let deleteSuccessful = false;
   let id = req.params.id;
   productDB.all().map(elem => {
     if (elem.id === Number(id)) {
       productDB.remove(elem);
-      deleteSuccessful = true;
-      res.render('index', indexPage);
+      locals.showProducts = true;
     }
-    // if (deleteSuccessful === false){
-    //   res.render(303, `/products/${req.params.id}/edit`);
-    // }
   })
+  if (locals.deleteError === false) {
+    res.render('index', locals);
+  } else {
+    res.redirect(303, `/products/new`);
+  }
 });
-//same problem as PUT
 
 
 
