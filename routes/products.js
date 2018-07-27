@@ -18,6 +18,10 @@ router.get(`/`, (req, res) => {
   res.render('index', indexPage)
 });
 
+router.get(`/new`, (req, res) => {
+  res.render('new');
+});
+
 router.get(`/:id`, (req, res) => {
   let id = req.params.id;
   productDB.all().map(elem => {
@@ -30,21 +34,25 @@ router.get(`/:id`, (req, res) => {
 });
 
 router.get(`/:id/edit`, (req, res) => {
-  let id = req.params.id;
-  res.render(`edit`);
+  // let id = req.params.id;
+  res.render('edit');
 });
+
 
 //post items
 router.post(`/`, (req, res) => {
   if (!req.body.name) {
-    res.status(404).send('Product has no name!');
+    // res.status(404).send('Product has no name!');
+    res.redirect(303, `/products/new`)
 
   } else if (isNaN(parseInt(req.body.price))) {
-    res.status(404).send('Please input a number for price');
+    // res.status(404).send('Please input a number for price');
+    res.redirect(303, `/products/new`)
 
   } else if (req.body.inventory < 1) {
-    res.status(404).send('Please input an inventory value higher than 1');
-
+    // res.status(404).send('Please input an inventory value higher than 1');
+    res.redirect(303, `/products/new`)
+    
   } else {
     let newProduct = {};
     newProduct.id = generateId();
