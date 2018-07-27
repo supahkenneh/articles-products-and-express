@@ -1,4 +1,4 @@
-const productList = [{ id: 0, name: 'NMD', price: 150, inventory: 1 }, { id: 1, name: 'Flyknits', price: 100 }];
+const productList = [{ id: 0, name: 'NMD', price: 150, inventory: 1 }, { id: 1, name: 'Flyknits', price: 100, inventory: 1}];
 
 function all() {
   return productList;
@@ -18,9 +18,16 @@ function add(reqData) {
   productList.push(newProduct);
 };
 
-function remove(index) {
-  let itemIndex = productList.indexOf(index);
-  productList.splice(itemIndex, 1);
+function remove(itemId) {
+  const findIndex = productList.findIndex(elem => {
+    return Number(elem.id) === Number(itemId);
+  });
+  if (productList[findIndex]){
+    productList.splice(findIndex, 1);
+    return true;
+  } else {
+    return false;
+  }
 };
 
 

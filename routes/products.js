@@ -7,7 +7,7 @@ const productDB = require('../db/dbproducts');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-let urlEncoder = bodyParser.urlencoded({extended: false})
+let urlEncoder = bodyParser.urlencoded({ extended: false })
 
 let locals = {
   showProducts: false,
@@ -40,25 +40,17 @@ router.get(`/:id`, (req, res) => {
 });
 
 router.get(`/:id/edit`, (req, res) => {
-  res.render('edit');
+  res.render('edit', locals);
 });
 
 
 //post items
 router.post(`/`, urlEncoder, (req, res) => {
   console.log(req.body)
-  if (!req.body.name) {
+  resetLocals();
+  if (!req.body.name || isNaN(parseInt(req.body.price)) || req.body.inventory < 1) {
     locals.message = "Input error! Please enter a name, price, and inventory";
     res.redirect(303, `/products/new`);
-
-  } else if (isNaN(parseInt(req.body.price))) {
-    locals.message = "Input error! Please enter a name, price, and inventory";
-    res.redirect(303, `/products/new`);
-
-  } else if (req.body.inventory < 1) {
-    locals.message = "Input error! Please enter a name, price, and inventory";
-    res.redirect(303, `/products/new`);
-
   } else {
     productDB.add(req.body);
     console.log(productDB.all());
@@ -88,24 +80,13 @@ router.put(`/:id`, (req, res) => {
 
 //delete items
 router.delete(`/:id`, (req, res) => {
-  resetLocals();
   let id = req.params.id;
-  productDB.all().map(elem => {
-    if (elem.id === Number(id)) {
-      productDB.remove(elem);
-      locals.showProducts = true;
-      locals.deleteError = true;
-    }
-  })
-  if (locals.deleteError === false) {
-    res.render(`new`, {
-      message: `Item doesn't exist, please enter a new item`,
-      deleteError: true,
-    });
-  } else {
+  productDB.remove(id);
+  if (productDB.remove(id) === true) {
     locals.message = 'Item successfully deleted'
     res.render('index', locals);
-  }
+  } 
+    res.status(404).send('Page Not Found');
 });
 
 
@@ -118,5 +99,6 @@ function resetLocals() {
     showProducts: false,
     products: productDB.all(),
     deleteError: false,
+    message: null,
   }
 }
