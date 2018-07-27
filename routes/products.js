@@ -7,7 +7,7 @@ const productDB = require('../db/dbproducts');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-const homeRender = {
+const indexPage = {
   showProducts: true,
   products:productDB.all(),
 }
@@ -15,8 +15,23 @@ const homeRender = {
 
 /****** METHOD STUFF******/
 router.get(`/`, (req, res) => {
-  res.render('home', homeRender)
-  // res.send(`Product Page`);
+  res.render('index', indexPage)
+});
+
+router.get(`/:id`, (req, res) => {
+  let id = req.params.id;
+  productDB.all().map(elem => {
+    if (elem.id === Number(id)){
+      res.render(`product`, {
+        product: elem,
+      })
+    }
+  })
+});
+
+router.get(`/:id/edit`, (req, res) => {
+  let id = req.params.id;
+  res.render(`edit`);
 });
 
 //post items
@@ -46,29 +61,26 @@ router.post(`/`, (req, res) => {
 //put items
 router.put(`/:id`, (req, res) => {
   let id = req.params.id;
-  for (let i = 0; i < productDB.all().length; i++){
-    if (Number(id) === productDB.all()[i].id){
-      productDB.all()[i].name = req.body.name;
-      res.render('id', {
-        product: productDB.all()[i],
-      });
-      break;
+  productDB.all().map(elem => {
+    if (elem.id === Number(id)){
+      elem.name = req.body.name;
+      res.redirect(303, `/products/${req.params.id}`)
     } 
-  }
+  })
 });
 //if ID doesn't exist, server hangs, need to render home but will throw header error if array length is > 1
 
 //delete items
 router.delete(`/:id`, (req, res) => {
   let id = req.params.id;
-  for (let i = 0; i < productDB.all().length; i++){
-    if (Number(id) === productDB.all()[i].id){
-      productDB.remove(i);
-      res.render(`home`, homeRender);
-      break;
+  productDB.all().map(elem => {
+    if (elem.id === Number(id)){
+      productDB.remove(elem);
+      res.render('index', indexPage);
     }
-  }
-})
+  })
+});
+//same problem as PUT
 
 
 

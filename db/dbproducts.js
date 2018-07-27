@@ -10,6 +10,9 @@ function add(item) {
 
 function remove(index) {
   productList.splice(index, 1);
+};
+
+function updateId(id) {
 }
 
 module.exports = {

@@ -4,19 +4,20 @@ const bodyParser = require('body-parser');
 const articles = require('./routes/articles');
 const products = require(`./routes/products`);
 const exphbs = require('express-handlebars');
+const productDB = require('./db/dbproducts');
 
 const PORT = process.env.port || 3005;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+const indexPage = {
+  showProducts: true,
+  products:productDB.all(),
+};
 
 app.get(`/`, (req, res) => {
-  // const locals = {
-  //   greeting: 'Aloha',
-  // }
-  // res.render('main', locals);
-  res.send('WORK IN PROGRESS');
+  res.render('index', indexPage);
 });
 
 
