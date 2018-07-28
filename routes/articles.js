@@ -27,7 +27,6 @@ router.get(`/new`, (req, res) => {
 
 router.get(`/:urlTitle`, (req, res) => {
   let renderArticle = articlesDB.findArticle(req.params.urlTitle);
-  console.log(renderArticle);
   if (!renderArticle) {
     locals.message = `Article doesn't exist, please enter a new article`;
     res.render('new', locals);
