@@ -45,10 +45,15 @@ router.get(`/:urlTitle/edit`, (req, res) => {
     locals.message = `Article can't be edited because it doesn't exist`
     res.render('index', locals);
   } else {
+    console.log(renderArticle.content);
     res.render('edit', {
       showArticles: true,
       article: renderArticle,
+      title: renderArticle.title,
+      author: renderArticle.author,
+      content: renderArticle.content,
     })
+    console.log(renderArticle);
   }
 });
 

@@ -4,11 +4,11 @@
   <h3>{{message}}</h3>
   <input type="hidden" name="_method" value="PUT" />
   <h1>Name:</h1>
-  <input type="text" name="name" value={{product.name}}>
+  <input type="text" name="name" value="{{product.name}}">
   <h1>Price:</h1>
-  <input type="text" name="price" value={{product.price}}>
+  <input type="text" name="price" value="{{product.price}}">
   <h1>Inventory:</h1>
-  <input type="text" name="inventory" value={{product.inventory}}>
+  <input type="text" name="inventory" value="{{product.inventory}}">
   <input type="submit" value="Submit">
 </form>
 {{/if}}
@@ -18,11 +18,11 @@
   <h3>{{message}}</h3>
   <input type="hidden" name="_method" value="PUT" />
   <h1>Name:</h1>
-  <input type="text" name="title" value={{article.title}}>
+  <input type="text" name="title" value="{{title}}">
   <h1>Author:</h1>
-  <input type="text" name="author" value={{article.author}}>
+  <input type="text" name="author" value="{{author}}">
   <h1>Content:</h1>
-  <input type="text" name="content" value={{article.content}}>
+  <textarea name="content">{{content}}</textarea>
   <input type="submit" value="Submit">
 </form>
 {{/if}}
