@@ -1,13 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
-const exphbs = require('express-handlebars');
 const productDB = require('../db/dbproducts');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
-
-let urlEncoder = bodyParser.urlencoded({ extended: false })
 
 let locals = {
   showProducts: false,
@@ -26,6 +23,8 @@ router.get(`/`, (req, res) => {
 });
 
 router.get(`/new`, (req, res) => {
+  resetLocals();
+  locals.showProducts = true;
   res.render('new', locals);
 });
 
@@ -57,9 +56,10 @@ router.get(`/:id/edit`, (req, res) => {
 //post items
 router.post(`/`, (req, res) => {
   resetLocals();
+  locals.showProducts = true;
   if (req.body.name.length < 1 || isNaN(parseInt(req.body.price)) || req.body.inventory < 1) {
     locals.message = "Input error! Please enter a name, price, and inventory";
-    res.redirect(303, `/products/new`);
+    res.render(`new`, locals);
   } else {
     productDB.add(req.body);
     locals.showProducts = true;
