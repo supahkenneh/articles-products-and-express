@@ -17,7 +17,6 @@ let locals = {
 /****** METHOD STUFF******/
 router.get(`/`, (req, res) => {
   resetLocals(productDB.all());
-  // locals.showProducts = true;
   res.render('index', locals)
 });
 

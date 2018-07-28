@@ -37,28 +37,59 @@ router.get(`/:urlTitle`, (req, res) => {
 });
 
 router.get(`/:urlTitle/edit`, (req, res) => {
+  resetLocals(articlesDB.all());
   let renderArticle = articlesDB.findArticle(req.params.urlTitle);
   if(!renderArticle) {
     locals.message = `Article can't be edited because it doesn't exist`
     res.render('index', locals);
   } else {
     res.render('edit', {
+      showArticles: true,
       article: renderArticle,
     })
   }
 });
 
+//post items
 router.post(`/`, (req, res) => {
-  resetLocals();
+  resetLocals(articlesDB.all());
   locals.showArticles = true;
-  if (req.body.title < 1 || req.body.author < 1 || req.body.body < 1) {
+  if (req.body.title < 1 || req.body.author < 1 || req.body.content < 1) {
     locals.message = "Input error! Please enter a name, author, and body";
     res.render('new', locals);
   } else {
     articlesDB.add(req.body);
     res.render('index', locals);
   }
-})
+});
+
+//put items
+router.put(`/:urlTitle`, (req, res) => {
+  resetLocals(articlesDB.all());
+  locals.showArticles = true;
+  let articleToEdit = articlesDB.findArticle(req.params.urlTitle);
+  if (!articleToEdit) {
+    res.redirect(303, `/articles/${req.params.urlTitle}/edit`)
+  } else {
+    articlesDB.editArticle(req.body, articleToEdit);
+    res.redirect(303, `/products/${req.params.urlTitle}`);
+  }
+});
+
+//delete items
+router.delete(`/:urlTitle`, (req, res) => {
+  resetLocals(articlesDB.all());
+  locals.showArticles = true;
+  let articleToDelete = articlesDB.findArticle(req.params.urlTitle);
+  if(!articleToDelete) {
+    locals.message = `Article can't be deleted because it doesn't exist`
+    res.render('index', locals);
+  } else {
+    articlesDB.remove(articleToDelete);
+    locals.message = 'Article successfully deleted';
+    res.render('index', locals);
+  }
+});
 
 
 module.exports = router;

@@ -1,4 +1,5 @@
-<form enctype="application/x-www-form-urlencoded" action="/products/{{product.id}}?_method=PUT?_method=PUT" method="POST">
+{{#if showProducts}}
+<form enctype="application/x-www-form-urlencoded" action="/products/{{product.id}}?_method=PUT" method="POST">
   <h1>Edit Product Information</h1>
   <h3>{{message}}</h3>
   <input type="hidden" name="_method" value="PUT" />
@@ -10,3 +11,18 @@
   <input type="text" name="inventory" value={{product.inventory}}>
   <input type="submit" value="Submit">
 </form>
+{{/if}}
+{{#if showArticles}}
+<form enctype="application/x-www-form-urlencoded" action="/articles/{{article.urlTitle}}?_method=PUT" method="POST">
+  <h1>Edit Product Information</h1>
+  <h3>{{message}}</h3>
+  <input type="hidden" name="_method" value="PUT" />
+  <h1>Name:</h1>
+  <input type="text" name="title" value={{article.title}}>
+  <h1>Author:</h1>
+  <input type="text" name="author" value={{article.author}}>
+  <h1>Content:</h1>
+  <input type="text" name="content" value={{article.body}}>
+  <input type="submit" value="Submit">
+</form>
+{{/if}}
