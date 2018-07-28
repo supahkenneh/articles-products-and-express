@@ -4,28 +4,34 @@ function all() {
   return productList;
 };
 
-function generateId() {
-  let randomId = Math.floor(Math.random() * 10);
-  return randomId;
-};
+let idGenerator = 2;
 
 function add(reqData) {
   let newProduct = {};
-  newProduct.id = generateId();
+  newProduct.id = idGenerator;
   newProduct.name = reqData.name;
   newProduct.price = Number(reqData.price);
   newProduct.inventory = Number(reqData.inventory);
   productList.push(newProduct);
+  idGenerator++
 };
 
-function remove(index) {
-  let itemIndex = productList.indexOf(index);
+function remove(item) {
+  let itemIndex = productList.indexOf(item);
   productList.splice(itemIndex, 1);
 };
 
+function findItem (index) {
+  productList.map(elem => {
+    if (Number(index) === elem.id){
+      return elem;
+    }
+  })
+}
 
 module.exports = {
   all: all,
   add: add,
   remove: remove,
+  findItem: findItem,
 }

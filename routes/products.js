@@ -7,7 +7,7 @@ const productDB = require('../db/dbproducts');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-let urlEncoder = bodyParser.urlencoded({extended: false})
+let urlEncoder = bodyParser.urlencoded({ extended: false })
 
 let locals = {
   showProducts: false,
@@ -35,17 +35,17 @@ router.get(`/:id`, (req, res) => {
         product: elem,
         showProducts: true,
       })
-    }
+    } 
   })
 });
 
 router.get(`/:id/edit`, (req, res) => {
   let renderItem;
   productDB.all().map(elem => {
-    if(elem.id === Number(req.params.id)) {
+    if (elem.id === Number(req.params.id)) {
       renderItem = elem;
-      return renderItem
     }
+    return renderItem
   })
   res.render('edit', {
     product: renderItem,
@@ -57,7 +57,7 @@ router.get(`/:id/edit`, (req, res) => {
 router.post(`/`, urlEncoder, (req, res) => {
   console.log(req.body)
   resetLocals();
-  if (!req.body.name || isNaN(parseInt(req.body.price)) || req.body.inventory < 1) {
+  if (req.body.name.length < 1 || isNaN(parseInt(req.body.price)) || req.body.inventory < 1) {
     locals.message = "Input error! Please enter a name, price, and inventory";
     res.redirect(303, `/products/new`);
   } else {
@@ -78,31 +78,31 @@ router.put(`/:id`, (req, res) => {
       locals.itemFound = true;
     }
   });
+  //render after put
   if (locals.itemFound === false) {
     res.redirect(303, `/products/${req.params.id}/edit`);
   } else {
     locals.showProducts = true;
     locals.message = 'Item not found, please edit information below...'
     res.redirect(303, `/products/${req.params.id}`)
+    resetLocals();
   }
 });
 
 //delete items
 router.delete(`/:id`, (req, res) => {
   let id = req.params.id;
-  productDB.all().map(elem => {
-    if (elem.id === Number(id)) {
-      productDB.remove(elem);
-      locals.showProducts = true;
-      locals.deleted = true;
-    }
-  })
+  let itemToRemove = productDB.findItem(id);
+  productDB.remove(itemToRemove);
+  locals.deleted = true;
+
   if (locals.deleted === false) {
     res.render(`new`, {
       message: `Item doesn't exist, please enter a new item`,
     });
     resetLocals();
   } else {
+    locals.showProducts = true
     locals.message = 'Item successfully deleted'
     res.render('index', locals);
   }

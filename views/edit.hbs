@@ -1,39 +1,12 @@
-{{!-- {{#if showProducts}} --}}
-<h1>Edit Product Information</h1>
-<h3>
-  {{message}}
-</h3>
-<form enctype="application/x-www-form-urlencoded" method="POST" action="/products">
-  <h1>Name:
-    <br>
-    <input type="text" name="name" value={{product.name}}>
-  </h1>
-  <h1>Price:
-    <br>
-    <input type="text" name="price" value={{product.price}}>
-  </h1>
-  <h1>Inventory:
-    <br>
-    <input type="text" name="inventory" value={{product.inventory}}>
-  </h1>
+<form enctype="application/x-www-form-urlencoded" action="/products/{{product.id}}?_method=PUT" method="POST">
+  <h1>Edit Product Information</h1>
+  <h3>{{message}}</h3>
+  <input type="hidden" name="_method" value="PUT" />
+  <h1>Name:</h1>
+  <input type="text" name="name" value={{product.name}}>
+  <h1>Price:</h1>
+  <input type="text" name="price" value={{product.price}}>
+  <h1>Inventory:</h1>
+  <input type="text" name="inventory" value={{product.inventory}}>
   <input type="submit" value="Submit">
 </form>
-{{!-- {{/if}} --}}
-{{!-- {{#if showArticles}}
-<h1>Edit Article Information</h1>
-<h3>
-  {{message}}
-</h3>
-<h1>Title:
-  <br>
-  <input type="text" name="name">
-</h1>
-<h1>Author:
-  <br>
-  <input type="text" name="author">
-</h1>
-<h1>Body:
-  <br>
-  <input type="text" name="body">
-</Body></h1>
-{{/if}} --}}
