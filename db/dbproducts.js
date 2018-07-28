@@ -21,17 +21,8 @@ function remove(item) {
   productList.splice(itemIndex, 1);
 };
 
-function findItem (index) {
-  productList.map(elem => {
-    if (Number(index) === elem.id){
-      return elem;
-    }
-  })
-}
-
 module.exports = {
   all: all,
   add: add,
   remove: remove,
-  findItem: findItem,
 }

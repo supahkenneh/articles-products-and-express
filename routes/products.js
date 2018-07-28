@@ -92,10 +92,12 @@ router.put(`/:id`, (req, res) => {
 //delete items
 router.delete(`/:id`, (req, res) => {
   let id = req.params.id;
-  let itemToRemove = productDB.findItem(id);
-  productDB.remove(itemToRemove);
-  locals.deleted = true;
-
+  productDB.all().map(elem => {
+    if (Number(id) === elem.id) {
+      productDB.remove(elem);
+      locals.deleted = true;
+    }
+  })
   if (locals.deleted === false) {
     res.render(`new`, {
       message: `Item doesn't exist, please enter a new item`,
