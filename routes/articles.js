@@ -14,6 +14,7 @@ let locals = {
   showProducts: false,
 }
 
+/***** METHOD STUFF *****/
 router.get(`/`, (req, res) => {
   resetLocals(articlesDB.all());
   res.render('index', locals);
@@ -31,6 +32,7 @@ router.get(`/:urlTitle`, (req, res) => {
     res.render('new', locals);
   } else {
     res.render('article', {
+      showArticles: true,
       article: renderArticle,
     })
   }
@@ -72,7 +74,7 @@ router.put(`/:urlTitle`, (req, res) => {
     res.redirect(303, `/articles/${req.params.urlTitle}/edit`)
   } else {
     articlesDB.editArticle(req.body, articleToEdit);
-    res.redirect(303, `/products/${req.params.urlTitle}`);
+    res.redirect(303, `/articles/${req.params.urlTitle}`);
   }
 });
 
@@ -85,7 +87,7 @@ router.delete(`/:urlTitle`, (req, res) => {
     locals.message = `Article can't be deleted because it doesn't exist`
     res.render('index', locals);
   } else {
-    articlesDB.remove(articleToDelete);
+    articlesDB.removeArticle(articleToDelete);
     locals.message = 'Article successfully deleted';
     res.render('index', locals);
   }

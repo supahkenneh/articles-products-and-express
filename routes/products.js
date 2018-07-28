@@ -32,6 +32,7 @@ router.get(`/:id`, (req, res) => {
     res.render('new', locals)
   } else {
     res.render('product', {
+      showProducts: true,
       product: renderItem,
     })
   }
@@ -44,6 +45,7 @@ router.get(`/:id/edit`, (req, res) => {
     res.render('index', locals);
   } else {
     res.render('edit', {
+      showProducts: true,
       product: renderItem,
     });
   }
