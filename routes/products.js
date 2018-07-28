@@ -75,6 +75,8 @@ router.put(`/:id`, (req, res) => {
   productDB.all().map(elem => {
     if (elem.id === Number(id)) {
       elem.name = req.body.name;
+      elem.price = req.body.price;
+      elem.inventory = req.body.inventory;
       locals.itemFound = true;
     }
   });
