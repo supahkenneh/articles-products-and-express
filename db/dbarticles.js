@@ -14,7 +14,6 @@ add = (item) => {
 }
 
 findArticle = (item) => {
-  console.log('this is ', item);
   let elem;
   articleList.map(element => {
     if (element.urlTitle === item) {

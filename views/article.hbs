@@ -1,8 +1,8 @@
  {{message}}
 <h1>Article</h1>
 <p>Title: {{article.title}}</p>
-<p>Body: {{article.body}}</p>
 <p>Author: {{article.author}}</p>
+<p>Content: {{article.content}}</p>
 
 <form action="/articles/{{article.urlTitle}}/edit" method="post" enctype="application/x-www-form-urlencoded">
   <input type="hidden" name="_method" value="get">

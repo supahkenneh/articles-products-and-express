@@ -27,6 +27,7 @@ router.get(`/new`, (req, res) => {
 
 router.get(`/:urlTitle`, (req, res) => {
   let renderArticle = articlesDB.findArticle(req.params.urlTitle);
+  console.log(renderArticle);
   if (!renderArticle) {
     locals.message = `Article doesn't exist, please enter a new article`;
     res.render('new', locals);
@@ -74,7 +75,7 @@ router.put(`/:urlTitle`, (req, res) => {
     res.redirect(303, `/articles/${req.params.urlTitle}/edit`)
   } else {
     articlesDB.editArticle(req.body, articleToEdit);
-    res.redirect(303, `/articles/${req.params.urlTitle}`);
+    res.redirect(303, `/articles/${articleToEdit.urlTitle}`);
   }
 });
 
