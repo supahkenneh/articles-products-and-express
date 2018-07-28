@@ -9,6 +9,7 @@ const PORT = process.env.port || 3005;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(express.static('./public'));
 
 /***** METHOD OVERRIDE *****/
 app.use(methodOverride((req, res) => {
@@ -19,10 +20,8 @@ app.use(methodOverride((req, res) => {
   }
 }));
 
-//static
-
 app.get(`/`, (req, res) => {
-  res.render('index', indexPage);
+  res.render('landingPage');
 });
 
 /****** HANDLEBAR STUFF******/

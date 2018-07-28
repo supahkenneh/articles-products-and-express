@@ -8,13 +8,13 @@
 </h3>
 <ul>
   {{#each products}}
-  <li>{{this.name}}</li>
+  <a href="/products/{{this.id}}">
+    <li>{{this.name}}</li>
+  </a>
   <p>Product ID: {{this.id}}</p>
   {{/each}}
 </ul>
-{{/if}}
-
-{{#if showArticles}}
+{{/if}} {{#if showArticles}}
 <h1>Articles</h1>
 <form action="/articles/new">
   <input type="submit" value="Add Article">
@@ -24,7 +24,9 @@
 </h3>
 <ul>
   {{#each articles}}
-  <li>{{this.title}}</li>
+  <a href="/articles/{{this.urlTitle}}">
+    <li>{{this.title}}</li>
+  </a>
   <p>Article Author: {{this.author}}</p>
   {{/each}}
 </ul>
