@@ -1,3 +1,4 @@
+{{#if showProducts}}
 <h1>Input New Product Information</h1>
 <h3>
   {{message}}
@@ -17,3 +18,25 @@
   </h1>
   <input type="submit" value="Submit">
 </form>
+{{/if}}
+{{#if showArticles}}
+<h1>Input New Article</h1>
+<h3>
+  {{message}}
+</h3>
+<form enctype="application/x-www-form-urlencoded" method="post" action="/articles">
+  <h1>Title:
+    <br>
+    <input type="text" name="title">
+  </h1>
+  <h1>Author:
+    <br>
+    <input type="text" name="author">
+  </h1>
+  <h1>Body:
+    <br>
+    <input type="text" name="body">
+  </h1>
+  <input type="submit" value="Submit">
+</form>
+{{/if}}
