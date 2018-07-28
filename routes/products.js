@@ -14,11 +14,13 @@ let locals = {
   products: productDB.all(),
   deleteError: false,
   message: null,
+  showArticles: false,
 }
 
 
 /****** METHOD STUFF******/
 router.get(`/`, (req, res) => {
+  resetLocals();
   locals.showProducts = true;
   res.render('index', locals)
 });
@@ -28,41 +30,38 @@ router.get(`/new`, (req, res) => {
 });
 
 router.get(`/:id`, (req, res) => {
-  let id = req.params.id;
-  productDB.all().map(elem => {
-    if (elem.id === Number(id)) {
-      res.render(`product`, {
-        product: elem,
-        showProducts: true,
-      })
-    } 
-  })
+  let renderItem = productDB.findItem(req.params.id);
+  if (!renderItem) {
+    locals.message = `Item doesn't exist, please enter a new item`;
+    res.render('new', locals)
+  } else {
+    res.render('product', {
+      product: renderItem,
+    })
+  }
 });
 
 router.get(`/:id/edit`, (req, res) => {
-  let renderItem;
-  productDB.all().map(elem => {
-    if (elem.id === Number(req.params.id)) {
-      renderItem = elem;
-    }
-    return renderItem
-  })
-  res.render('edit', {
-    product: renderItem,
-  });
+  let renderItem = productDB.findItem(req.params.id);
+  if (!renderItem) {
+    locals.message = `Item can't be edit because it doesn't exist`
+    res.render('index', locals);
+  } else {
+    res.render('edit', {
+      product: renderItem,
+    });
+  }
 });
 
 
 //post items
-router.post(`/`, urlEncoder, (req, res) => {
-  console.log(req.body)
+router.post(`/`, (req, res) => {
   resetLocals();
   if (req.body.name.length < 1 || isNaN(parseInt(req.body.price)) || req.body.inventory < 1) {
     locals.message = "Input error! Please enter a name, price, and inventory";
     res.redirect(303, `/products/new`);
   } else {
     productDB.add(req.body);
-    console.log(productDB.all());
     locals.showProducts = true;
     res.render(`index`, locals);
   }
@@ -71,46 +70,28 @@ router.post(`/`, urlEncoder, (req, res) => {
 //put items
 router.put(`/:id`, (req, res) => {
   resetLocals();
-  let id = req.params.id;
-  productDB.all().map(elem => {
-    if (elem.id === Number(id)) {
-      elem.name = req.body.name;
-      elem.price = req.body.price;
-      elem.inventory = req.body.inventory;
-      locals.itemFound = true;
-    }
-  });
-  //render after put
-  if (locals.itemFound === false) {
-    res.redirect(303, `/products/${req.params.id}/edit`);
+  let itemToEdit = productDB.findItem(req.params.id);
+  if (!itemToEdit) {
+    res.redirect(303, `/products/${req.params.id}/edit`)
   } else {
-    locals.showProducts = true;
-    locals.message = 'Item not found, please edit information below...'
-    res.redirect(303, `/products/${req.params.id}`)
-    resetLocals();
+    productDB.editItem(req.body, itemToEdit);
+    res.redirect(303, `/products/${req.params.id}`);
   }
 });
 
+
 //delete items
 router.delete(`/:id`, (req, res) => {
-  let id = req.params.id;
-  productDB.all().map(elem => {
-    if (Number(id) === elem.id) {
-      productDB.remove(elem);
-      locals.deleted = true;
-    }
-  })
-  if (locals.deleted === false) {
-    res.render(`new`, {
-      message: `Item doesn't exist, please enter a new item`,
-    });
-    resetLocals();
+  resetLocals();
+  let itemToDelete = productDB.findItem(req.params.id);
+  if(!itemToDelete) {
+    locals.message = `Item can't be deleted because it doesn't exist`
+    res.render(`index`, locals);
   } else {
-    locals.showProducts = true
-    locals.message = 'Item successfully deleted'
+    productDB.remove(itemToDelete);
+    locals.message = 'Item successfully deleted';
     res.render('index', locals);
   }
-  resetLocals();
 });
 
 
@@ -120,9 +101,10 @@ module.exports = router;
 
 function resetLocals() {
   locals = {
-    showProducts: false,
+    showProducts: true,
     products: productDB.all(),
     deleteError: false,
     message: null,
+    showArticles: false,
   }
 }

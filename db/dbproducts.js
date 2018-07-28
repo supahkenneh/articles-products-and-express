@@ -21,8 +21,26 @@ function remove(item) {
   productList.splice(itemIndex, 1);
 };
 
+function findItem(item) {
+  let elem;
+  productList.map(element => {
+    if(element.id === Number(item)){
+      elem = element;
+    }
+  })
+  return elem;
+};
+
+function editItem (newItem, currItem) {
+  currItem.name = newItem.name;
+  currItem.price = newItem.price;
+  currItem.inventory = newItem.inventory;
+}
+
 module.exports = {
-  all: all,
-  add: add,
-  remove: remove,
+  all, 
+  add, 
+  remove,
+  findItem,
+  editItem,
 }

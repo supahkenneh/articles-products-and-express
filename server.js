@@ -6,7 +6,6 @@ const articles = require('./routes/articles');
 const products = require(`./routes/products`);
 const exphbs = require('express-handlebars');
 const productDB = require('./db/dbproducts');
-
 const PORT = process.env.port || 3005;
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -23,13 +22,13 @@ app.use(methodOverride((req, res) => {
 
 const indexPage = {
   showProducts: true,
-  products:productDB.all(),
+  showArticles: true,
+  // products:productDB.all(),
 };
 
 app.get(`/`, (req, res) => {
   res.render('index', indexPage);
 });
-
 
 /****** HANDLEBAR STUFF******/
 app.engine('.hbs', exphbs({
@@ -39,15 +38,13 @@ app.engine('.hbs', exphbs({
 
 app.set('view engine', '.hbs');
 
-
 /****** ROUTE STUFF******/
 app.use(`/articles`, articles);
 app.use(`/products`, products)
 
-
 /****** Catch ALL, ERROR, and LISTEN******/
 app.get('*', (req, res) => {
-  res.send('HELLO WORLD?');
+  res.send('HELLO WORLD?'); //404
 });
 
 app.use((err, res, req, next) => {
