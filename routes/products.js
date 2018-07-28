@@ -7,24 +7,22 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 let locals = {
-  showProducts: false,
+  showProducts: true,
   products: productDB.all(),
   deleteError: false,
   message: null,
   showArticles: false,
 }
 
-
 /****** METHOD STUFF******/
 router.get(`/`, (req, res) => {
-  resetLocals();
-  locals.showProducts = true;
+  resetLocals(productDB.all());
+  // locals.showProducts = true;
   res.render('index', locals)
 });
 
 router.get(`/new`, (req, res) => {
-  resetLocals();
-  locals.showProducts = true;
+  resetLocals(productDB.all());
   res.render('new', locals);
 });
 
@@ -55,21 +53,19 @@ router.get(`/:id/edit`, (req, res) => {
 
 //post items
 router.post(`/`, (req, res) => {
-  resetLocals();
-  locals.showProducts = true;
+  resetLocals(productDB.all());
   if (req.body.name.length < 1 || isNaN(parseInt(req.body.price)) || req.body.inventory < 1) {
     locals.message = "Input error! Please enter a name, price, and inventory";
     res.render(`new`, locals);
   } else {
     productDB.add(req.body);
-    locals.showProducts = true;
     res.render(`index`, locals);
   }
 });
 
 //put items
 router.put(`/:id`, (req, res) => {
-  resetLocals();
+  resetLocals(productDB.all());
   let itemToEdit = productDB.findItem(req.params.id);
   if (!itemToEdit) {
     res.redirect(303, `/products/${req.params.id}/edit`)
@@ -82,7 +78,7 @@ router.put(`/:id`, (req, res) => {
 
 //delete items
 router.delete(`/:id`, (req, res) => {
-  resetLocals();
+  resetLocals(productDB.all());
   let itemToDelete = productDB.findItem(req.params.id);
   if(!itemToDelete) {
     locals.message = `Item can't be deleted because it doesn't exist`
@@ -99,12 +95,12 @@ module.exports = router;
 
 /****** HELPER STUFF******/
 
-function resetLocals() {
-  locals = {
-    showProducts: true,
-    products: productDB.all(),
+function resetLocals(list) {
+  return {
+    showArticles: false,
+    list: list ? list : [],
     deleteError: false,
     message: null,
-    showArticles: false,
+    showProducts: true,
   }
 }

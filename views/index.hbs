@@ -1,7 +1,7 @@
 {{#if showProducts}}
 <h1>Products</h1>
 <form action="/products/new">
-  <input type="submit" value="Add Item">
+  <input type="submit" value="Add Product">
 </form>
 <h3>
   {{message}}
@@ -13,8 +13,12 @@
   {{/each}}
 </ul>
 {{/if}}
+
 {{#if showArticles}}
 <h1>Articles</h1>
+<form action="/articles/new">
+  <input type="submit" value="Add Article">
+</form>
 <h3>
   {{message}}
 </h3>

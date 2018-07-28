@@ -1,52 +1,76 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
-const exphbs = require('express-handlebars');
 const articlesDB = require('../db/dbarticles');
 
 router.use(bodyParser.urlencoded({extended: true}));
 router.use(bodyParser.json());
 
 let locals = {
-  showProducts: false,
-  showArticles: false,
+  showArticles: true,
   articles: articlesDB.all(),
   deleteError: false,
   message: null,
+  showProducts: false,
 }
 
 router.get(`/`, (req, res) => {
-  locals.showArticles = true;
+  resetLocals(articlesDB.all());
   res.render('index', locals);
 });
 
 router.get(`/new`, (req, res) => {
+  resetLocals(articlesDB.all());
   res.render('new', locals);
 });
 
-router.get(`/:title`, (req, res) => {
-  let title = req.params.title;
-  articlesDB.all().map(elem => {
-    if (elem.title === title) {
-      res.render(`article`, {
-        article: elem,
-      })
-    } 
-  })
+router.get(`/:urlTitle`, (req, res) => {
+  let renderArticle = articlesDB.findArticle(req.params.urlTitle);
+  if (!renderArticle) {
+    locals.message = `Article doesn't exist, please enter a new article`;
+    res.render('new', locals);
+  } else {
+    res.render('article', {
+      article: renderArticle,
+    })
+  }
 });
 
-// router.post(`/`, urlencoded)
+router.get(`/:urlTitle/edit`, (req, res) => {
+  let renderArticle = articlesDB.findArticle(req.params.urlTitle);
+  if(!renderArticle) {
+    locals.message = `Article can't be edited because it doesn't exist`
+    res.render('index', locals);
+  } else {
+    res.render('edit', {
+      article: renderArticle,
+    })
+  }
+});
+
+router.post(`/`, (req, res) => {
+  resetLocals();
+  locals.showArticles = true;
+  if (req.body.title < 1 || req.body.author < 1 || req.body.body < 1) {
+    locals.message = "Input error! Please enter a name, author, and body";
+    res.render('new', locals);
+  } else {
+    articlesDB.add(req.body);
+    res.render('index', locals);
+  }
+})
+
 
 module.exports = router;
 
 /****** HELPER STUFF******/
 
-function resetLocals() {
-  locals = {
-    showProducts: false,
-    products: articlesDB.all(),
+function resetLocals(list) {
+  return {
+    showArticles: true,
+    list: list ? list : [],
     deleteError: false,
     message: null,
-    showArticles: true,
+    showProducts: false,
   }
 }

@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const articles = require('./routes/articles');
 const products = require(`./routes/products`);
 const exphbs = require('express-handlebars');
-const productDB = require('./db/dbproducts');
 const PORT = process.env.port || 3005;
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -20,11 +19,7 @@ app.use(methodOverride((req, res) => {
   }
 }));
 
-const indexPage = {
-  showProducts: true,
-  showArticles: true,
-  // products:productDB.all(),
-};
+//static
 
 app.get(`/`, (req, res) => {
   res.render('index', indexPage);
