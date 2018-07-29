@@ -40,18 +40,12 @@ router.get(`/:id`, (req, res) => {
   }
 });
 
-router.get(`/:id/edit`, (req, res) => {
-  resetLocals(productDB.all());
+router.get(`/:id/edit`, validation.validateGet, (req, res) => {
   let renderItem = productDB.findItem(req.params.id);
-  if (!renderItem) {
-    locals.message = `Item can't be edit because it doesn't exist`
-    res.render('index', locals);
-  } else {
-    res.render('edit', {
+  res.render('edit', {
       showProducts: true,
       product: renderItem,
     });
-  };
 });
 
 

@@ -50,6 +50,17 @@ function validateDelete(req, res, next) {
     productDB.remove(itemToDelete);
     next();
   }
+};
+
+function validateGet(req, res, next) {
+  resetLocals(productDB.all());
+  let renderItem = productDB.findItem(req.params.id);
+  if(!renderItem) {
+    locals.message = `Item can't be edited because it doesn't exist`
+    res.render(`index`, locals);
+  } else {
+    next();
+  }
 }
 
 /****** HELPER STUFF******/
@@ -67,4 +78,5 @@ module.exports = {
   validatePost,
   validatePut,
   validateDelete,
+  validateGet,
 }
