@@ -51,7 +51,7 @@ router.get(`/:id/edit`, (req, res) => {
       showProducts: true,
       product: renderItem,
     });
-  }
+  };
 });
 
 
@@ -68,17 +68,12 @@ router.put(`/:id`, validation.validatePut, (req, res) => {
 
 
 //delete items
-router.delete(`/:id`, (req, res) => {
-  resetLocals(productDB.all());
-  let itemToDelete = productDB.findItem(req.params.id);
-  if (!itemToDelete) {
-    locals.message = `Item can't be deleted because it doesn't exist`
-    res.render(`index`, locals);
-  } else {
-    productDB.remove(itemToDelete);
-    locals.message = 'Item successfully deleted';
-    res.render('index', locals);
-  }
+router.delete(`/:id`, validation.validateDelete, (req, res) => {
+  res.render('index', {
+    showProducts: true,
+    message: 'Item successfully deleted!',
+    products: productDB.all(),
+  });
 });
 
 
