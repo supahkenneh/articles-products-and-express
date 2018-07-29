@@ -62,15 +62,8 @@ router.post(`/`, validation.validatePost, (req, res) => {
 });
 
 //put items
-router.put(`/:id`, (req, res) => {
-  resetLocals(productDB.all());
-  let itemToEdit = productDB.findItem(req.params.id);
-  if (!itemToEdit) {
-    res.redirect(303, `/products/${req.params.id}/edit`)
-  } else {
-    productDB.editItem(req.body, itemToEdit);
-    res.redirect(303, `/products/${req.params.id}`);
-  }
+router.put(`/:id`, validation.validatePut, (req, res) => {
+  res.redirect(`/products/${req.params.id}`);
 });
 
 
