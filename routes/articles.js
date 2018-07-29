@@ -27,17 +27,12 @@ router.get(`/new`, (req, res) => {
   res.render('new', locals);
 });
 
-router.get(`/:urlTitle`, (req, res) => {
+router.get(`/:urlTitle`, validation.validateArticleGetId, (req, res) => {
   let renderArticle = articlesDB.findArticle(req.params.urlTitle);
-  if (!renderArticle) {
-    locals.message = `Article doesn't exist, please enter a new article`;
-    res.render('new', locals);
-  } else {
-    res.render('article', {
-      showArticles: true,
-      article: renderArticle,
-    })
-  }
+  res.render('article', {
+    showArticles: true,
+    article: renderArticle,
+  })
 });
 
 router.get(`/:urlTitle/edit`, validation.validateArticleGetEdit, (req, res) => {
