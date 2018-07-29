@@ -5,6 +5,14 @@ html {
   font-size: 150%;
 }
 
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 #menu {
   display: flex;
   flex-flow: column wrap;
@@ -25,7 +33,10 @@ html {
   font-family: 'Roboto', Sans-Serif;
   font-size: 30px;
   background-color: #98B7D8;
+  color: white;
+  outline: none;
 }
+
 
 #index_header {
   background-color: #225591;
