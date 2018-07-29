@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const articles = require('./routes/articles');
 const products = require(`./routes/products`);
 const exphbs = require('express-handlebars');
+const validation = require('./middleware/validation');
+const analytics = require('./middleware/analytics');
 const PORT = process.env.port || 3005;
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -19,6 +21,8 @@ app.use(methodOverride((req, res) => {
     return method;
   }
 }));
+
+// app.use(validation.validateInfo());
 
 app.get(`/`, (req, res) => {
   res.render('landingPage');

@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const productDB = require('../db/dbproducts');
+const validation = require('../middleware/validation');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
@@ -55,15 +56,9 @@ router.get(`/:id/edit`, (req, res) => {
 
 
 //post items
-router.post(`/`, (req, res) => {
-  resetLocals(productDB.all());
-  if (req.body.name.length < 1 || isNaN(parseInt(req.body.price)) || req.body.inventory < 1) {
-    locals.message = "Input error! Please enter a name, price, and inventory";
-    res.render(`new`, locals);
-  } else {
+router.post(`/`, validation.validatePost, (req, res) => {
     productDB.add(req.body);
-    res.render(`index`, locals);
-  }
+    res.redirect(`/products`);
 });
 
 //put items

@@ -1,8 +1,41 @@
 //validate product information
-function validateInfo(req, res, next) {
-  console.log('hi');
+const productDB = require('../db/dbproducts');
+
+let locals = {
+  showProducts: true,
+  // products: productDB.all(),
+  deleteError: false,
+  message: null,
+  showArticles: false,
+}
+
+function validatePost(req, res, next) {
+  resetLocals(productDB.all());
+  let success = false;
+  console.log(req);
+  if (req.body.name.length < 1 || isNaN(parseInt(req.body.price)) || req.body.inventory < 1) {
+    locals.message = 'Input error! Please enter a name, price, and inventory';
+  } else {
+    success = true;
+  }
+  if (success === false) {
+    res.render('new', locals);
+  } else {
+    next();
+  }
+}
+
+
+function resetLocals(list) {
+  return {
+    showArticles: false,
+    list: list ? list : [],
+    deleteError: false,
+    message: null,
+    showProducts: true,
+  }
 }
 
 module.exports = {
-  validateInfo,
+  validatePost,
 }
