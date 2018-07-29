@@ -9,15 +9,11 @@ let locals = {
   showArticles: false,
 }
 
+/********** PRODUCT VALIDATIONS **********/
 function validatePost(req, res, next) {
   resetLocals(productDB.all());
-  let success = false;
-  if (req.body.name.length < 1 || isNaN(parseInt(req.body.price)) || isNaN(parseInt(req.body.inventory)) || req.body.inventory < 1 ){
+  if (req.body.name.length < 1 || isNaN(parseInt(req.body.price)) || isNaN(parseInt(req.body.inventory)) || req.body.inventory < 1) {
     locals.message = 'Input error! Please enter a name, price, and inventory';
-  } else {
-    success = true;
-  }
-  if (success === false) {
     res.render('new', locals);
   } else {
     next();
@@ -27,10 +23,10 @@ function validatePost(req, res, next) {
 function validatePut(req, res, next) {
   resetLocals(productDB.all());
   let itemToEdit = productDB.findItem(req.params.id);
-  if(!itemToEdit) {
+  if (!itemToEdit) {
     res.redirect(`/products/${req.params.id}/edit`);
   } else {
-    if(req.body.name.length < 1 || isNaN(parseInt(req.body.price)) || isNaN(parseInt(req.body.inventory)) || req.body.inventory < 1) {
+    if (req.body.name.length < 1 || isNaN(parseInt(req.body.price)) || isNaN(parseInt(req.body.inventory)) || req.body.inventory < 1) {
       locals.message = 'Unable to edit item due to input errors';
       res.render('index', locals);
     } else {
@@ -43,7 +39,7 @@ function validatePut(req, res, next) {
 function validateDelete(req, res, next) {
   resetLocals(productDB.all());
   let itemToDelete = productDB.findItem(req.params.id);
-  if(!itemToDelete) {
+  if (!itemToDelete) {
     locals.message = `Item can't be deleted because it doesn't exist`;
     res.render('index', locals);
   } else {
@@ -55,7 +51,7 @@ function validateDelete(req, res, next) {
 function validateGetEdit(req, res, next) {
   resetLocals(productDB.all());
   let renderItem = productDB.findItem(req.params.id);
-  if(!renderItem) {
+  if (!renderItem) {
     locals.message = `Item can't be edited because it doesn't exist`
     res.render(`index`, locals);
   } else {
@@ -66,13 +62,15 @@ function validateGetEdit(req, res, next) {
 function validateGetById(req, res, next) {
   resetLocals(productDB.all());
   let renderItem = productDB.findItem(req.params.id);
-  if(!renderItem) {
+  if (!renderItem) {
     locals.message = `Item doesn't exist, please enter a new item`;
     res.render(`new`, locals)
   } else {
     next();
   }
 }
+
+
 
 /****** HELPER STUFF******/
 function resetLocals(list) {
