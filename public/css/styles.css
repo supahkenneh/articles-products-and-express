@@ -14,11 +14,17 @@ html {
 
 .directory {
   margin: 75px;
-  border: 1px solid;
-  border-radius: 5px;
   height: 50%;
   width: 40%;
   text-align: center;
+}
+
+.page_buttons {
+  height: 150px;
+  width: 60%;
+  font-family: 'Roboto', Sans-Serif;
+  font-size: 30px;
+  background-color: #98B7D8;
 }
 
 #index_header {
@@ -133,6 +139,10 @@ p {
 
 .item_values {
   font-size: 14px;
+}
+
+h3 {
+  color: red;
 }
 
 
