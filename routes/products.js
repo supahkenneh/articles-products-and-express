@@ -26,33 +26,27 @@ router.get(`/new`, (req, res) => {
   res.render('new', locals);
 });
 
-router.get(`/:id`, (req, res) => {
-  resetLocals(productDB.all());
+router.get(`/:id`, validation.validateGetById, (req, res) => {
   let renderItem = productDB.findItem(req.params.id);
-  if (!renderItem) {
-    locals.message = `Item doesn't exist, please enter a new item`;
-    res.render('new', locals)
-  } else {
-    res.render('product', {
-      showProducts: true,
-      product: renderItem,
-    })
-  }
+  res.render('product', {
+    showProducts: true,
+    product: renderItem,
+  })
 });
 
-router.get(`/:id/edit`, validation.validateGet, (req, res) => {
+router.get(`/:id/edit`, validation.validateGetEdit, (req, res) => {
   let renderItem = productDB.findItem(req.params.id);
   res.render('edit', {
-      showProducts: true,
-      product: renderItem,
-    });
+    showProducts: true,
+    product: renderItem,
+  });
 });
 
 
 //post items
 router.post(`/`, validation.validatePost, (req, res) => {
-    productDB.add(req.body);
-    res.redirect(`/products`);
+  productDB.add(req.body);
+  res.redirect(`/products`);
 });
 
 //put items

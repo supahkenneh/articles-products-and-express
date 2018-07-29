@@ -52,12 +52,23 @@ function validateDelete(req, res, next) {
   }
 };
 
-function validateGet(req, res, next) {
+function validateGetEdit(req, res, next) {
   resetLocals(productDB.all());
   let renderItem = productDB.findItem(req.params.id);
   if(!renderItem) {
     locals.message = `Item can't be edited because it doesn't exist`
     res.render(`index`, locals);
+  } else {
+    next();
+  }
+}
+
+function validateGetById(req, res, next) {
+  resetLocals(productDB.all());
+  let renderItem = productDB.findItem(req.params.id);
+  if(!renderItem) {
+    locals.message = `Item doesn't exist, please enter a new item`;
+    res.render(`new`, locals)
   } else {
     next();
   }
@@ -78,5 +89,6 @@ module.exports = {
   validatePost,
   validatePut,
   validateDelete,
-  validateGet,
+  validateGetEdit,
+  validateGetById,
 }
