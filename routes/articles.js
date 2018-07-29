@@ -2,8 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const articlesDB = require('../db/dbarticles');
+const validation = require(`../middleware/validateArticles`);
 
-router.use(bodyParser.urlencoded({extended: true}));
+router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 
@@ -39,62 +40,32 @@ router.get(`/:urlTitle`, (req, res) => {
   }
 });
 
-router.get(`/:urlTitle/edit`, (req, res) => {
-  resetLocals(articlesDB.all());
+router.get(`/:urlTitle/edit`, validation.validateArticleGetEdit, (req, res) => {
   let renderArticle = articlesDB.findArticle(req.params.urlTitle);
-  if(!renderArticle) {
-    locals.message = `Article can't be edited because it doesn't exist`
-    res.render('index', locals);
-  } else {
-    res.render('edit', {
-      showArticles: true,
-      article: renderArticle,
-      title: renderArticle.title,
-      author: renderArticle.author,
-      content: renderArticle.content,
-    })
-  }
+  res.render('edit', {
+    showArticles: true,
+    article: renderArticle,
+  });
 });
 
 //post items
-router.post(`/`, (req, res) => {
-  resetLocals(articlesDB.all());
-  locals.showArticles = true;
-  if (req.body.title < 1 || req.body.author < 1 || req.body.body < 1) {
-    locals.message = "Input error! Please enter a name, author, and body";
-    res.render('new', locals);
-  } else {
-    articlesDB.add(req.body);
-    res.render('index', locals);
-  }
+router.post(`/`, validation.validateArticlePost, (req, res) => {
+  articlesDB.add(req.body);
+  res.render('index', locals);
 });
 
 //put items
-router.put(`/:urlTitle`, (req, res) => {
-  resetLocals(articlesDB.all());
-  locals.showArticles = true;
-  let articleToEdit = articlesDB.findArticle(req.params.urlTitle);
-  if (!articleToEdit) {
-    res.redirect(303, `/articles/${req.params.urlTitle}/edit`)
-  } else {
-    articlesDB.editArticle(req.body, articleToEdit);
-    res.redirect(303, `/articles/${articleToEdit.urlTitle}`);
-  }
+router.put(`/:urlTitle`, validation.validateArticlePut, (req, res) => {
+  res.redirect(303, `/articles/${articleToEdit.urlTitle}`);
 });
 
 //delete items
-router.delete(`/:urlTitle`, (req, res) => {
-  resetLocals(articlesDB.all());
-  locals.showArticles = true;
-  let articleToDelete = articlesDB.findArticle(req.params.urlTitle);
-  if(!articleToDelete) {
-    locals.message = `Article can't be deleted because it doesn't exist`
-    res.render('index', locals);
-  } else {
-    articlesDB.removeArticle(articleToDelete);
-    locals.message = 'Article successfully deleted';
-    res.render('index', locals);
-  }
+router.delete(`/:urlTitle`, validation.validateArticleDelete, (req, res) => {
+  res.render('index', {
+    showArticles: true,
+    message: `Article successfully deleted`,
+    articles: articlesDB.all(),
+  });
 });
 
 

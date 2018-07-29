@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const productDB = require('../db/dbproducts');
-const validation = require('../middleware/validation');
+const validation = require('../middleware/validateProducts');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());

@@ -26,11 +26,11 @@
   <h3>{{message}}</h3>
   <input type="hidden" name="_method" value="PUT" />
   <h1 class="edit_headers">Name:</h1>
-  <input type="text" name="title" value="{{title}}" class="simple_line">
+  <input type="text" name="title" value="{{article.title}}" class="simple_line">
   <h1 class="edit_headers">Author:</h1>
-  <input type="text" name="author" value="{{author}}" class="simple_line">
+  <input type="text" name="author" value="{{article.author}}" class="simple_line">
   <h1 class="edit_headers">Content:</h1>
-  <textarea name="content" id="content_input">{{content}}</textarea>
+  <textarea name="content" id="content_input">{{article.content}}</textarea>
   <br>
   <input type="submit" value="Submit" id="submit_button">
 </form>

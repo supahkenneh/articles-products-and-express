@@ -36,9 +36,19 @@ function validateArticleDelete(req, res, next) {
   if(!articleToDelete) {
     locals.message = `Article can't be deleted because it doesn't exist`;
     res.render(`index`, locals);
-    console.log(articlesDB.all());
   } else {
     articlesDB.removeArticle(articleToDelete);
+    next();
+  }
+};
+
+function validateArticleGetEdit(req, res, next) {
+  resetLocals(articlesDB.all());
+  let renderArticle = articlesDB.findArticle(req.params.urlTitle);
+  if(!renderArticle) {
+    locals.message = `Article can't be edited because it doesn't exist`
+    res.render('index', locals);
+  } else {
     next();
   }
 }
@@ -57,5 +67,6 @@ function resetLocals(list) {
 module.exports = {
   validateArticlePost,
   validateArticlePut,
-  validateArticleDelete
+  validateArticleDelete,
+  validateArticleGetEdit,
 }
