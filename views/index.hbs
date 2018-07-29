@@ -1,33 +1,47 @@
 {{#if showProducts}}
-<h1>Products</h1>
-<form action="/products/new">
-  <input type="submit" value="Add Product">
-</form>
-<h3>
-  {{message}}
-</h3>
-<ul>
-  {{#each products}}
-  <a href="/products/{{this.id}}">
-    <li>{{this.name}}</li>
-  </a>
-  <p>Product ID: {{this.id}}</p>
-  {{/each}}
-</ul>
+<div id="productBody">
+  <h1 id="index_header">Products</h1>
+  <form action="/products/new" id="add_new">
+    <input type="submit" value="Add Product" id="add_button">
+  </form>
+  <form action="/">
+    <input type="submit" value="Back" id="back_button">
+  </form>
+  <h3>
+    {{message}}
+  </h3>
+  <div id="list_container">
+    <ul>
+      {{#each products}}
+      <a href="/products/{{this.id}}">
+        <li>{{this.name}}</li>
+      </a>
+      <p>Product ID: {{this.id}}</p>
+      {{/each}}
+    </ul>
+  </div>
+</div>
 {{/if}} {{#if showArticles}}
-<h1>Articles</h1>
-<form action="/articles/new">
-  <input type="submit" value="Add Article">
-</form>
-<h3>
-  {{message}}
-</h3>
-<ul>
-  {{#each articles}}
-  <a href="/articles/{{this.urlTitle}}">
-    <li>{{this.title}}</li>
-  </a>
-  <p>Article Author: {{this.author}}</p>
-  {{/each}}
-</ul>
+<div id="articlesBody">
+  <h1 id="index_header">Articles</h1>
+  <form action="/articles/new" id="add_new">
+    <input type="submit" value="Add Article" id="add_button">
+  </form>
+  <form action="/">
+    <input type="submit" value="Back" id="back_button">
+  </form>
+  <h3>
+    {{message}}
+  </h3>
+  <div id="list_container">
+    <ul>
+      {{#each articles}}
+      <a href="/articles/{{this.urlTitle}}">
+        <li>{{this.title}}</li>
+      </a>
+      <p>Author: {{this.author}}</p>
+      {{/each}}
+    </ul>
+  </div>
+</div>
 {{/if}}

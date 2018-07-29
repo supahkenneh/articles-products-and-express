@@ -1,42 +1,48 @@
 {{#if showProducts}}
-<h1>Input New Product Information</h1>
+<h1 id="index_header">Enter A New Product</h1>
 <h3>
   {{message}}
 </h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/products">
-  <h1>Name:
+  <h1 class="edit_headers">Name:
     <br>
-    <input type="text" name="name" value={{product.title}}>
+    <input type="text" name="name" class="simple_line">
   </h1>
-  <h1>Price:
+  <h1 class="edit_headers">Price:
     <br>
-    <input type="text" name="price">
+    <input type="text" name="price" class="simple_line">
   </h1>
-  <h1>Inventory:
+  <h1 class="edit_headers">Inventory:
     <br>
-    <input type="text" name="inventory">
+    <input type="text" name="inventory" class="simple_line">
   </h1>
-  <input type="submit" value="Submit">
+  <input type="submit" value="Submit" id="submit_button">
+</form>
+<form action="/">
+  <input type="submit" value="Home" id="home_button">
 </form>
 {{/if}}
 {{#if showArticles}}
-<h1>Input New Article</h1>
+<h1 id="index_header">Create New Article</h1>
 <h3>
   {{message}}
 </h3>
 <form enctype="application/x-www-form-urlencoded" method="post" action="/articles">
-  <h1>Title:
+  <h1 class="edit_headers">Title:
     <br>
-    <input type="text" name="title">
+    <input type="text" name="title" class="simple_line">
   </h1>
-  <h1>Author:
+  <h1 class="edit_headers">Author:
     <br>
-    <input type="text" name="author">
+    <input type="text" name="author" class="simple_line">
   </h1>
-  <h1>Body:
+  <h1 class="edit_headers">Content:
     <br>
-    <input type="text" name="body">
+    <textarea name="body" id="content_input"></textarea>
   </h1>
-  <input type="submit" value="Submit">
+  <input type="submit" value="Submit" id="submit_button">
+</form>
+<form action="/">
+  <input type="submit" value="Home" id="back_button">
 </form>
 {{/if}}

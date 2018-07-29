@@ -6,6 +6,7 @@ const articlesDB = require('../db/dbarticles');
 router.use(bodyParser.urlencoded({extended: true}));
 router.use(bodyParser.json());
 
+
 let locals = {
   showArticles: true,
   articles: articlesDB.all(),
@@ -45,7 +46,6 @@ router.get(`/:urlTitle/edit`, (req, res) => {
     locals.message = `Article can't be edited because it doesn't exist`
     res.render('index', locals);
   } else {
-    console.log(renderArticle.content);
     res.render('edit', {
       showArticles: true,
       article: renderArticle,
@@ -53,7 +53,6 @@ router.get(`/:urlTitle/edit`, (req, res) => {
       author: renderArticle.author,
       content: renderArticle.content,
     })
-    console.log(renderArticle);
   }
 });
 
@@ -61,7 +60,7 @@ router.get(`/:urlTitle/edit`, (req, res) => {
 router.post(`/`, (req, res) => {
   resetLocals(articlesDB.all());
   locals.showArticles = true;
-  if (req.body.title < 1 || req.body.author < 1 || req.body.content < 1) {
+  if (req.body.title < 1 || req.body.author < 1 || req.body.body < 1) {
     locals.message = "Input error! Please enter a name, author, and body";
     res.render('new', locals);
   } else {

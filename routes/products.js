@@ -26,6 +26,7 @@ router.get(`/new`, (req, res) => {
 });
 
 router.get(`/:id`, (req, res) => {
+  resetLocals(productDB.all());
   let renderItem = productDB.findItem(req.params.id);
   if (!renderItem) {
     locals.message = `Item doesn't exist, please enter a new item`;
@@ -39,6 +40,7 @@ router.get(`/:id`, (req, res) => {
 });
 
 router.get(`/:id/edit`, (req, res) => {
+  resetLocals(productDB.all());
   let renderItem = productDB.findItem(req.params.id);
   if (!renderItem) {
     locals.message = `Item can't be edit because it doesn't exist`
@@ -81,7 +83,7 @@ router.put(`/:id`, (req, res) => {
 router.delete(`/:id`, (req, res) => {
   resetLocals(productDB.all());
   let itemToDelete = productDB.findItem(req.params.id);
-  if(!itemToDelete) {
+  if (!itemToDelete) {
     locals.message = `Item can't be deleted because it doesn't exist`
     res.render(`index`, locals);
   } else {
