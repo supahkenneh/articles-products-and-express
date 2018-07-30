@@ -54,7 +54,6 @@ router.put(`/:id`, validation.validatePut, (req, res) => {
   res.redirect(`/products/${req.params.id}`);
 });
 
-
 //delete items
 router.delete(`/:id`, validation.validateDelete, (req, res) => {
   res.render('index', {
@@ -63,7 +62,6 @@ router.delete(`/:id`, validation.validateDelete, (req, res) => {
     products: productDB.all(),
   });
 });
-
 
 module.exports = router;
 

@@ -7,7 +7,6 @@ const validation = require(`../middleware/validateArticles`);
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-
 let locals = {
   showArticles: true,
   articles: articlesDB.all(),
@@ -62,7 +61,6 @@ router.delete(`/:urlTitle`, validation.validateArticleDelete, (req, res) => {
     articles: articlesDB.all(),
   });
 });
-
 
 module.exports = router;
 

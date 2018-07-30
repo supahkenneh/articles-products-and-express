@@ -70,7 +70,13 @@ function validateGetById(req, res, next) {
   }
 }
 
-
+module.exports = {
+  validatePost,
+  validatePut,
+  validateDelete,
+  validateGetEdit,
+  validateGetById,
+}
 
 /****** HELPER STUFF******/
 function resetLocals(list) {
@@ -83,10 +89,3 @@ function resetLocals(list) {
   }
 }
 
-module.exports = {
-  validatePost,
-  validatePut,
-  validateDelete,
-  validateGetEdit,
-  validateGetById,
-}

@@ -20,8 +20,6 @@ app.use(methodOverride((req, res) => {
   }
 }));
 
-// app.use(validation.validateInfo());
-
 app.get(`/`, (req, res) => {
   res.render('landingPage');
 });
