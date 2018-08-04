@@ -38,7 +38,7 @@ app.use(`/products`, products)
 
 /****** Catch ALL, ERROR, and LISTEN******/
 app.get('*', (req, res) => {
-  res.send('HELLO WORLD?'); //404
+  res.status(404).send('404 NOT FOUND');
 });
 
 app.use((err, res, req, next) => {

@@ -4,9 +4,6 @@ const router = express.Router();
 const productDB = require('../db/dbproducts');
 const validation = require('../middleware/validateProducts');
 
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
-
 let locals = {
   showProducts: true,
   products: productDB.all(),

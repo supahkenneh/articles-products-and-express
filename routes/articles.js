@@ -4,9 +4,6 @@ const router = express.Router();
 const articlesDB = require('../db/dbarticles');
 const validation = require(`../middleware/validateArticles`);
 
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
-
 let locals = {
   showArticles: true,
   articles: articlesDB.all(),
