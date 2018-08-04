@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/knex');
+const articles = require('../helpers/helpers')
 
 let statusMessage = {
   message: null
@@ -26,7 +27,7 @@ router.get('/new', (req, res) => {
 
 router.get('/:urltitle', (req, res) => {
   const urltitle = encodeURI(req.params.urltitle);
-  db.select().from('articles').where('urltitle', urltitle)
+  articles.selectAllArticles(urltitle)
     .then(result => {
       res.render('article', {
         article: result[0]
@@ -37,7 +38,7 @@ router.get('/:urltitle', (req, res) => {
 
 router.get('/:urltitle/edit', (req, res) => {
   const urltitle = encodeURI(req.params.urltitle);
-  db.select().from('articles').where('urltitle', urltitle)
+  articles.selectAllArticles(urltitle)
     .then(result => {
       if (result.length < 1) {
         res.render('new', {
@@ -70,7 +71,7 @@ router.post('/', (req, res) => {
       return result;
     })
     .then(result => {
-      return db('articles').insert({ title: data.title, author: data.author, content: data.content, urltitle: encodeURI(data.title) })
+      return articles.addArticle(data);
     })
     .then(result => {
       res.redirect('/articles');
@@ -81,7 +82,7 @@ router.post('/', (req, res) => {
 router.put('/:urltitle', (req, res) => {
   const urltitle = encodeURI(req.params.urltitle);
   const data = req.body;
-  db.select().from('articles').where('urltitle', urltitle)
+  articles.selectAllArticles(urltitle)
     .then(result => {
       if (result.length < 1) {
         return res.redirect(`/articles/${urltitle}/edit`);
@@ -89,23 +90,17 @@ router.put('/:urltitle', (req, res) => {
       return result;
     })
     .then(result => {
-      return db('articles').where('urltitle', urltitle)
-        .update({
-          title: data.title,
-          author: data.author,
-          content: data.content,
-          urltitle: encodeURI(data.title)
-        })
+      return articles.updateArticle(urltitle, data);
     })
     .then(result => {
-      res.redirect(`/articles/${urltitle}`)
+      res.redirect(`/articles/${encodeURI(data.title)}`)
     })
     .catch(err => console.log(err));
 });
 
 router.delete('/:urltitle', (req, res) => {
   const urltitle = encodeURI(req.params.urltitle);
-  db.select().from('articles').where('urltitle', urltitle)
+  articles.selectAllArticles(urltitle)
     .then(result => {
       if (result.length < 1) {
         res.redirect(`/articles/${urltitle}`)
@@ -113,7 +108,7 @@ router.delete('/:urltitle', (req, res) => {
       return result;
     })
     .then(result => {
-      return db('articles').where('urltitle', urltitle).del();
+      return articles.deleteArticle(urltitle);
     })
     .then(result => {
       res.redirect('/articles');

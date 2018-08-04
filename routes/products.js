@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/knex');
+const products = require('../helpers/helpers');
 
 let statusMessage = {
   message: null
@@ -27,7 +28,7 @@ router.get('/new', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const id = req.params.id;
-  db.select().from('products').where('id', id)
+  products.selectAllProducts(id)
     .then(result => {
       if (result.length < 1) {
         return res.render('new', {
@@ -47,7 +48,7 @@ router.get('/:id', (req, res) => {
 
 router.get('/:id/edit', (req, res) => {
   const id = req.params.id;
-  db.select().from('products').where('id', id)
+  products.selectAllProducts(id)
     .then(result => {
       if (result.length < 1) {
         return res.render('new', {
@@ -69,7 +70,7 @@ router.get('/:id/edit', (req, res) => {
 /************* METHODS *************/
 router.post('/', (req, res) => {
   const data = req.body;
-  db('products').insert({ name: data.name, price: data.price, inventory: data.inventory })
+  return products.addProduct(data)
     .then(result => {
       res.redirect('/products');
     })
@@ -79,7 +80,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
   const id = req.params.id;
   const data = req.body;
-  db.select().from('products').where('id', id)
+  products.selectAllProducts(id)
     .then(result => {
       if (result.length < 1) {
         res.redirect(`/products/${id}/edit`);
@@ -87,12 +88,7 @@ router.put('/:id', (req, res) => {
       return result;
     })
     .then(result => {
-      return db('products').where('id', id)
-        .update({
-          name: data.name,
-          price: data.price,
-          inventory: data.inventory
-        })
+      return products.updateProduct(id, data);
     })
     .then(result => {
       res.redirect(`/products/${id}`)
@@ -102,7 +98,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   const id = Number(req.params.id);
-  db.select().from('products').where('id', id)
+  products.selectAllProducts(id)
     .then(result => {
       if (result.length < 1) {
         res.redirect(`/products/${id}`)
@@ -110,7 +106,7 @@ router.delete('/:id', (req, res) => {
       return result;
     })
     .then(result => {
-      return db('products').where('id', id).del();
+      return products.deleteProduct(id);
     })
     .then(result => {
       statusMessage.message = 'Item successfully deleted!';
