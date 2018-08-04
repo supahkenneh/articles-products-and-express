@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/knex');
 const products = require('../helpers/helpers');
+const validations = require('../middleware/validations');
 
 let statusMessage = {
   message: null
@@ -68,7 +69,7 @@ router.get('/:id/edit', (req, res) => {
 });
 
 /************* METHODS *************/
-router.post('/', (req, res) => {
+router.post('/', validations.validateItem, (req, res) => {
   const data = req.body;
   return products.addProduct(data)
     .then(result => {
@@ -77,19 +78,10 @@ router.post('/', (req, res) => {
     .catch(err => console.log(err));
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', validations.validateUpdate, (req, res) => {
   const id = req.params.id;
   const data = req.body;
-  products.selectAllProducts(id)
-    .then(result => {
-      if (result.length < 1) {
-        res.redirect(`/products/${id}/edit`);
-      }
-      return result;
-    })
-    .then(result => {
-      return products.updateProduct(id, data);
-    })
+  products.updateProduct(id, data)
     .then(result => {
       res.redirect(`/products/${id}`)
     })

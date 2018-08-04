@@ -51,6 +51,5 @@ app.listen(PORT, () => {
 });;
 
 //TO DO:
-//migrations
 //middleware
 //error messages
