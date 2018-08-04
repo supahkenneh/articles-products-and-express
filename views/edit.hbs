@@ -21,7 +21,7 @@
 {{/if}}
 
 {{#if showArticles}}
-<form enctype="application/x-www-form-urlencoded" action="/articles/{{article.urlTitle}}?_method=PUT" method="POST">
+<form enctype="application/x-www-form-urlencoded" action="/articles/{{article.urltitle}}" method="POST">
   <h1 id="index_header">Edit Article Information</h1>
   <h3>{{message}}</h3>
   <input type="hidden" name="_method" value="PUT" />

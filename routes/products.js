@@ -4,7 +4,7 @@ const db = require('../db/knex');
 
 let statusMessage = {
   message: null
-}
+};
 
 /************* GET PAGES *************/
 router.get('/', (req, res) => {
@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 
 router.get('/new', (req, res) => {
   res.render('new', {
-    showProducts: true,
+    showProducts: true
   })
 });
 
@@ -35,25 +35,27 @@ router.get('/:id', (req, res) => {
     })
     .catch(err => console.log(err));
 });
+//add conditional to check if id exists, render new if it doesn't
 
 router.get('/:id/edit', (req, res) => {
   const id = req.params.id;
   db.select().from('products').where('id', id)
-  .then(result => {
-    if (result.length < 1) {
-      res.render('new', {
-        showProducts: true,
-        message: `Item doesn't exist, do you wish to enter a new item?`
-      })
-    }
-    return result;
-  })
+    .then(result => {
+      if (result.length < 1) {
+        res.render('new', {
+          showProducts: true,
+          message: `Item doesn't exist, do you wish to enter a new item?`
+        })
+      }
+      return result;
+    })
     .then(result => {
       res.render('edit', {
         showProducts: true,
         product: result[0]
       })
     })
+    .catch(err => console.log(err));
 });
 
 /************* METHODS *************/
@@ -112,66 +114,10 @@ router.delete('/:id', (req, res) => {
 
 module.exports = router;
 
-
-
-// /****** METHOD STUFF******/
-// router.get(`/`, (req, res) => {
-//   resetLocals(productDB.all());
-//   res.render('index', locals)
-// });
-
-// router.get(`/new`, (req, res) => {
-//   resetLocals(productDB.all());
-//   res.render('new', locals);
-// });
-
-// router.get(`/:id`, validation.validateGetById, (req, res) => {
-//   let renderItem = productDB.findItem(req.params.id);
-//   res.render('product', {
-//     showProducts: true,
-//     product: renderItem,
-//   })
-// });
-
-// router.get(`/:id/edit`, validation.validateGetEdit, (req, res) => {
-//   let renderItem = productDB.findItem(req.params.id);
-//   res.render('edit', {
-//     showProducts: true,
-//     product: renderItem,
-//   });
-// });
-
-
-// //post items
-// router.post(`/`, validation.validatePost, (req, res) => {
-//   productDB.add(req.body);
-//   res.redirect(`/products`);
-// });
-
-// //put items
-// router.put(`/:id`, validation.validatePut, (req, res) => {
-//   res.redirect(`/products/${req.params.id}`);
-// });
-
-// //delete items
-// router.delete(`/:id`, validation.validateDelete, (req, res) => {
-//   res.render('index', {
-//     showProducts: true,
-//     message: 'Item successfully deleted!',
-//     products: productDB.all(),
-//   });
-// });
-
-// module.exports = router;
-
 // /****** HELPER STUFF******/
 
-// function resetLocals(list) {
-//   return {
-//     showArticles: false,
-//     list: list ? list : [],
-//     deleteError: false,
-//     message: null,
-//     showProducts: true,
-//   }
-// }
+function resetMessage() {
+  return {
+    message: null,
+  }
+}

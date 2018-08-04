@@ -13,7 +13,7 @@ CREATE TABLE articles (
   title varchar(100) NOT NULL,
   author varchar(50) NOT NULL,
   content text,
-  urltitle varchar(100) NOT NULL
+  urltitle varchar(150) NOT NULL
 );
 
 CREATE TABLE products (
@@ -38,7 +38,7 @@ VALUES (
   'Cats II',
   'Crazy Cat Man',
   'Chase mice. Burrow under covers leave fur on owners clothes and poop in the plant pot or chase imaginary bugs, or eat owner food. Lick face hiss at owner, pee a lot, and meow repeatedly scratch at fence purrrrrr eat muffins and poutine until owner comes back meow freak human out make funny noise mow mow mow mow mow mow success now attack human terrorize the hundred-and-twenty-pound rottweiler and steal his bed, not sorry when in doubt, wash. Damn that dog purr. Purrr purr littel cat, little cat purr purr hopped up on catnip, so sniff all the things or cough hairball, eat toilet paper meow to be let in. Rub face on everything dont wait for the storm to pass, dance in the rain and meow loudly just to annoy owners and thug cat . Step on your keyboard while youre gaming and then turn in a circle.',
-  'catsii'
+  'cats%20ii'
 );
 
 INSERT INTO products 
