@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const validation = require('../middleware/validateProducts');
 const db = require('../db/knex');
 
 router.get('/', (req, res) => {
@@ -11,9 +10,36 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err));
 });
 
+router.get('/new', (req, res) => {
+  res.render('new', {
+    showProducts: true,
+  })
+});
+
+router.get('/:id', (req, res) => {
+  const id = req.params.id;
+  db.select().from('products').where('id', id)
+  .then(result => {
+    res.render('product', {
+      product: result[0]
+    })
+  })
+  .catch(err => console.log(err));
+});
+
+router.get('/:id/edit', (req, res) => {
+  const id = req.params.id;
+  db.select().from('products').where('id', id)
+  .then(result => {
+    res.render('edit', {
+      showProducts: true,
+      product: result[0]
+    })
+  })
+});
+
 router.post('/', (req, res) => {
   const data = req.body;
-  console.log(data);
   db('products').insert({ name: data.name, price: data.price, inventory: data.inventory })
     .then(result => {
       res.redirect('/products');
