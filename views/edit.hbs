@@ -2,7 +2,7 @@
   <input type="submit" value="Home" id="home_button">
 </form>
 {{#if showProducts}}
-<form enctype="application/x-www-form-urlencoded" action="/products/{{product.id}}?_method=PUT" method="POST">
+<form enctype="application/x-www-form-urlencoded" action="/products/{{product.id}}" method="POST">
   <h1 id="index_header">Edit Product Information</h1>
   <h3>{{message}}</h3>
   <input type="hidden" name="_method" value="PUT" />

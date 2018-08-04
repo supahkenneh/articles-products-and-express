@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
       res.render('index', {
         showProducts: true,
         products: result,
+        message: statusMessage.message
       })
     })
     .catch(err => console.log(err));
@@ -45,6 +46,7 @@ router.get('/:id/edit', (req, res) => {
         message: `Item doesn't exist, do you wish to enter a new item?`
       })
     }
+    return result;
   })
     .then(result => {
       res.render('edit', {
@@ -75,7 +77,8 @@ router.put('/:id', (req, res) => {
       return result;
     })
     .then(result => {
-      db('products').where('id', id)
+      console.log(result);
+      return db('products').where('id', id)
         .update({
           name: data.name,
           price: data.price,
