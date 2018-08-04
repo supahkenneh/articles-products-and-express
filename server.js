@@ -49,3 +49,8 @@ app.use((err, res, req, next) => {
 app.listen(PORT, () => {
   console.log('Server initiated!')
 });;
+
+//TO DO:
+//migrations
+//middleware
+//error messages
