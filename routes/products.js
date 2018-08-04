@@ -29,20 +29,28 @@ router.get('/:id', (req, res) => {
   const id = req.params.id;
   db.select().from('products').where('id', id)
     .then(result => {
+      if (result.length < 1) {
+        return res.render('new', {
+          showProducts: true,
+          message: `Item doesn't exist, do you wish to enter a new item?`
+        })
+      }
+      return result;
+    })
+    .then(result => {
       res.render('product', {
         product: result[0]
       })
     })
     .catch(err => console.log(err));
 });
-//add conditional to check if id exists, render new if it doesn't
 
 router.get('/:id/edit', (req, res) => {
   const id = req.params.id;
   db.select().from('products').where('id', id)
     .then(result => {
       if (result.length < 1) {
-        res.render('new', {
+        return res.render('new', {
           showProducts: true,
           message: `Item doesn't exist, do you wish to enter a new item?`
         })
