@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "db:reset": "psql -f ./db/articles_products_db.sql"
+    "db:reset": "psql -f ./db/articles_products_db.sql",
+    "knex:reset": "knex migrate:rollback && knex migrate:latest && knex seed:run"
   },
   "author": "Kenny-Chung",
   "license": "ISC",
