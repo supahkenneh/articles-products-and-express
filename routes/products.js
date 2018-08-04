@@ -2,10 +2,18 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/knex');
 
+let statusMessage = {
+  message: null
+}
+
+/************* GET PAGES *************/
 router.get('/', (req, res) => {
   db.select().from('products')
     .then(result => {
-      res.json(result);
+      res.render('index', {
+        showProducts: true,
+        products: result,
+      })
     })
     .catch(err => console.log(err));
 });
@@ -19,25 +27,34 @@ router.get('/new', (req, res) => {
 router.get('/:id', (req, res) => {
   const id = req.params.id;
   db.select().from('products').where('id', id)
-  .then(result => {
-    res.render('product', {
-      product: result[0]
+    .then(result => {
+      res.render('product', {
+        product: result[0]
+      })
     })
-  })
-  .catch(err => console.log(err));
+    .catch(err => console.log(err));
 });
 
 router.get('/:id/edit', (req, res) => {
   const id = req.params.id;
   db.select().from('products').where('id', id)
   .then(result => {
-    res.render('edit', {
-      showProducts: true,
-      product: result[0]
-    })
+    if (result.length < 1) {
+      res.render('new', {
+        showProducts: true,
+        message: `Item doesn't exist, do you wish to enter a new item?`
+      })
+    }
   })
+    .then(result => {
+      res.render('edit', {
+        showProducts: true,
+        product: result[0]
+      })
+    })
 });
 
+/************* METHODS *************/
 router.post('/', (req, res) => {
   const data = req.body;
   db('products').insert({ name: data.name, price: data.price, inventory: data.inventory })
@@ -53,7 +70,7 @@ router.put('/:id', (req, res) => {
   db.select().from('products').where('id', id)
     .then(result => {
       if (result.length < 1) {
-        res.redirect('/new');
+        res.redirect(`/products/${id}/edit`);
       }
       return result;
     })
@@ -72,29 +89,27 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
   db.select().from('products').where('id', id)
-  .then(result => {
-    if (result.length < 1) {
-      res.redirect(`/products/${id}`)
-    }
-    return result;
-  })
-  .then(result => {
-    db('products').where('id', id).del();
-  })
-  .catch(err => console.log(err));
+    .then(result => {
+      if (result.length < 1) {
+        res.redirect(`/products/${id}`)
+      }
+      return result;
+    })
+    .then(result => {
+      return db('products').where('id', id).del();
+    })
+    .then(result => {
+      statusMessage.message = 'Item successfully deleted!';
+      res.redirect('/products');
+    })
+    .catch(err => console.log(err));
 });
 
 module.exports = router;
 
-// let locals = {
-//   showProducts: true,
-//   products: productDB.all(),
-//   deleteError: false,
-//   message: null,
-//   showArticles: false,
-// }
+
 
 // /****** METHOD STUFF******/
 // router.get(`/`, (req, res) => {
