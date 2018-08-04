@@ -4,7 +4,7 @@
   "description": "Articles-Products-Express",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "nodemon server.js",
     "db:reset": "psql -f ./db/articles_products_db.sql"
   },
   "author": "Kenny-Chung",
