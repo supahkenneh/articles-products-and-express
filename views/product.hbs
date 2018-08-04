@@ -10,10 +10,12 @@
 <p class="item_values">{{product.price}}</p>
 <p class="item_headers">Inventory Stock</p>
 <p class="item_values">{{product.inventory}}</p>
+
 <form action="/products/{{product.id}}/edit" method="post" enctype="application/x-www-form-urlencoded">
   <input type="hidden" name="_method" value="get">
   <input type="submit" value="Edit Item" id="edit_button">
 </form>
+
 <form action="/products/{{product.id}}" method="post" enctype="application/x-www-form-urlencoded">
   <input type="hidden" name="_method" value="delete" />
   <input type="submit" value="Delete Item" id="delete_button">

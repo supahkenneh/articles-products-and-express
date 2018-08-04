@@ -79,7 +79,6 @@ router.put('/:id', (req, res) => {
       return result;
     })
     .then(result => {
-      console.log(result);
       return db('products').where('id', id)
         .update({
           name: data.name,
