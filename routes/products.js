@@ -17,28 +17,23 @@ router.get('/', (req, res) => {
         products: result,
         message: statusMessage.message
       })
+      statusMessage.message = null;
     })
     .catch(err => console.log(err));
 });
 
 router.get('/new', (req, res) => {
+  console.log(statusMessage.message);
   res.render('new', {
-    showProducts: true
+    showProducts: true,
+    message: statusMessage.message
   })
+  statusMessage.message = null;
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validations.validateProduct, (req, res) => {
   const id = req.params.id;
   products.selectAllProducts(id)
-    .then(result => {
-      if (result.length < 1) {
-        return res.render('new', {
-          showProducts: true,
-          message: `Item doesn't exist, do you wish to enter a new item?`
-        })
-      }
-      return result;
-    })
     .then(result => {
       res.render('product', {
         product: result[0]
@@ -47,18 +42,9 @@ router.get('/:id', (req, res) => {
     .catch(err => console.log(err));
 });
 
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', validations.validateProduct,(req, res) => {
   const id = req.params.id;
   products.selectAllProducts(id)
-    .then(result => {
-      if (result.length < 1) {
-        return res.render('new', {
-          showProducts: true,
-          message: `Item doesn't exist, do you wish to enter a new item?`
-        })
-      }
-      return result;
-    })
     .then(result => {
       res.render('edit', {
         showProducts: true,
@@ -69,7 +55,7 @@ router.get('/:id/edit', (req, res) => {
 });
 
 /************* METHODS *************/
-router.post('/', validations.validateItem, (req, res) => {
+router.post('/', validations.validateItemInput, (req, res) => {
   const data = req.body;
   return products.addProduct(data)
     .then(result => {
@@ -78,7 +64,7 @@ router.post('/', validations.validateItem, (req, res) => {
     .catch(err => console.log(err));
 });
 
-router.put('/:id', validations.validateUpdate, (req, res) => {
+router.put('/:id', validations.validateProduct, (req, res) => {
   const id = req.params.id;
   const data = req.body;
   products.updateProduct(id, data)
@@ -88,18 +74,9 @@ router.put('/:id', validations.validateUpdate, (req, res) => {
     .catch(err => console.log(err));
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validations.validateProduct, (req, res) => {
   const id = Number(req.params.id);
-  products.selectAllProducts(id)
-    .then(result => {
-      if (result.length < 1) {
-        res.redirect(`/products/${id}`)
-      }
-      return result;
-    })
-    .then(result => {
-      return products.deleteProduct(id);
-    })
+  products.deleteProduct(id)
     .then(result => {
       statusMessage.message = 'Item successfully deleted!';
       res.redirect('/products');
@@ -108,11 +85,3 @@ router.delete('/:id', (req, res) => {
 });
 
 module.exports = router;
-
-// /****** HELPER STUFF******/
-
-function resetMessage() {
-  return {
-    message: null,
-  }
-}
