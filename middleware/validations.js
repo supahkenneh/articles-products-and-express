@@ -22,7 +22,7 @@ function validateProduct (req, res, next ) {
   helpers.selectAllProducts(id)
   .then(result => {
     if (result.length < 1) {
-      statusMessage.message = `Error: Item doesn't exist`;
+      statusMessage.message = `Error: Item doesn't exist, enter new item?`;
       return res.render('new', {
         showProducts: true,
         message: statusMessage.message
@@ -44,8 +44,8 @@ function validateArticleInput (req, res, next) {
         message: statusMessage.message,
         content: data
       })
-    } else if (data.author.length < 1) {
-      statusMessage.message = `Error: Please enter an author`;
+    } else if (data.author.length < 1 || data.title.length < 1) {
+      statusMessage.message = `Error: Please enter a title and author`;
       return res.render('new', {
         showArticles: true,
         message: statusMessage.message,
@@ -57,8 +57,25 @@ function validateArticleInput (req, res, next) {
   })
 };
 
+function validateArticle (req, res, next) {
+  const urltitle =  encodeURI(req.params.urltitle);
+  helpers.selectAllArticles(urltitle)
+  .then(result => {
+    if (result.length < 1) {
+      statusMessage.message = `Error: Article doesn't exist, enter new article?`;
+      return res.render(`new`, {
+        showArticles: true,
+        message: statusMessage.message
+      });
+    } else {
+      next()
+    }
+  })
+};
+
 module.exports = {
   validateItemInput,
   validateProduct,
-  validateArticleInput
+  validateArticleInput,
+  validateArticle
 };
