@@ -16,7 +16,7 @@ function validateProduct(req, res, next) {
     .then(result => {
       if (result.length < 1) {
         statusMessage.message = `Error: Item doesn't exist, enter new item?`;
-        return res.render('new', {
+        return res.status(400).render('new', {
           showProducts: true,
           message: statusMessage.message
         })
@@ -32,7 +32,7 @@ function validateArticleInput(req, res, next) {
     .then(result => {
       if (result.length > 0) {
         statusMessage.message = `Error: Article of that name already exists!`;
-        return res.render('new', {
+        return res.status(400).render('new', {
           showArticles: true,
           message: statusMessage.message,
           content: data
@@ -56,7 +56,7 @@ function validateArticle(req, res, next) {
     .then(result => {
       if (result.length < 1) {
         statusMessage.message = `Error: Article doesn't exist, enter new article?`;
-        return res.render(`new`, {
+        return res.status(400).render(`new`, {
           showArticles: true,
           message: statusMessage.message
         });

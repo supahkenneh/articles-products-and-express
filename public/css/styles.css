@@ -37,7 +37,6 @@ a:hover {
   outline: none;
 }
 
-
 #index_header {
   background-color: #225591;
   color: white;
@@ -98,7 +97,7 @@ p {
   line-height: 150%;
 }
 
-#edit_button, #delete_button, #home_button, #submit_button{
+#edit_button, #delete_button, #home_button, #submit_button, #error_home{
   height: 40px;
   width: 120px;
   font-size: 15px;
@@ -152,8 +151,12 @@ p {
   font-size: 14px;
 }
 
-h3 {
+h3, #message {
   color: red;
+}
+
+#message, #back_home {
+  text-align: center;
 }
 
 

@@ -40,7 +40,7 @@ app.use(`/products`, products)
 
 /****** Catch ALL, ERROR, and LISTEN******/
 app.get('*', (req, res) => {
-  res.status(404).send('404 NOT FOUND');
+  res.status(404).render('404');
 });
 
 app.use((err, res, req, next) => {
@@ -53,5 +53,4 @@ app.listen(PORT, () => {
 });;
 
 //TO DO:
-//middleware
-//steve rogers
+//404s

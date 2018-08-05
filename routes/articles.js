@@ -33,7 +33,7 @@ router.get('/new', (req, res) => {
   statusMessage.message = null;
 });
 
-router.get('/:urltitle', (req, res) => {
+router.get('/:urltitle', validations.validateArticle, (req, res) => {
   const urltitle = encodeURI(req.params.urltitle);
   helpers.selectAllArticles(urltitle)
     .then(result => {
