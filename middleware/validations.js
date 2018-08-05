@@ -6,20 +6,13 @@ let statusMessage = {
 
 function validateItemInput(req, res, next) {
   const data = req.body;
-  if (data.name.length < 1 || isNaN(parseInt(data.price)) || isNaN(parseInt(data.inventory))) {
-    statusMessage.message = 'Error: Please enter valid name, price, and inventory';
-    return res.render('new', {
-      showProducts: true,
-      message: statusMessage.message
-    })
-  } else {
-    next();
-  }
+  checkInputs(data, res)
+  next();
 };
 
 function validateProduct(req, res, next) {
   const id = Number(req.params.id);
-  helpers.selectAllProducts(id)
+  return helpers.selectAllProducts(id)
     .then(result => {
       if (result.length < 1) {
         statusMessage.message = `Error: Item doesn't exist, enter new item?`;
@@ -71,6 +64,31 @@ function validateArticle(req, res, next) {
         next()
       }
     })
+};
+
+function checkInputs(inputs, res) {
+  if (inputs.name.length < 1) {
+    statusMessage.message = 'Error: Please enter a name for item';
+    return res.render('new', {
+      showProducts: true,
+      message: statusMessage.message,
+      product: inputs
+    })
+  } else if (isNaN(parseInt(inputs.price))) {
+    statusMessage.message = `Error: Please enter a valid price`;
+    return res.render('new', {
+      showProducts: true,
+      message: statusMessage.message,
+      product: inputs
+    })
+  } else if (isNaN(parseInt(inputs.inventory)) || inputs.inventory < 1) {
+    statusMessage.message = `Error: Please enter a number for inventory`;
+    return res.render('new', {
+      showProducts: true,
+      message: statusMessage.message,
+      product: inputs
+    })
+  }
 };
 
 module.exports = {

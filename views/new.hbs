@@ -6,15 +6,15 @@
 <form enctype="application/x-www-form-urlencoded" method="post" action="/products">
   <h1 class="edit_headers">Name:
     <br>
-    <input type="text" name="name" class="simple_line">
+    <input type="text" name="name" class="simple_line" value="{{product.name}}">
   </h1>
   <h1 class="edit_headers">Price:
     <br>
-    <input type="text" name="price" class="simple_line">
+    <input type="text" name="price" class="simple_line" value="{{product.price}}">
   </h1>
   <h1 class="edit_headers">Inventory:
     <br>
-    <input type="text" name="inventory" class="simple_line">
+    <input type="text" name="inventory" class="simple_line" value="{{product.inventory}}">
   </h1>
   <input type="submit" value="Submit" id="submit_button">
 </form>
