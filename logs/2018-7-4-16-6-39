@@ -7,4 +7,55 @@ GET /? 2018-7-4-16-6-39GET /products? 2018-7-4-16-6-40GET /products/1 2018-7-4-1
   POST /products/5/edit 2018-7-4-16-7-27
   GET /products? 2018-7-4-16-7-29
   GET /? 2018-7-4-16-7-32
+  GET /articles? 2018-7-4-16-12-18
+  GET /articles/i%20am%20groot 2018-7-4-16-12-39
+  GET /articles? 2018-7-4-16-13-11
+  GET /articles/i%20am%20groot 2018-7-4-16-13-12
+  GET /articles? 2018-7-4-16-13-13
+  GET /articles/i%20am%20groot 2018-7-4-16-14-10
+  GET /articles? 2018-7-4-16-14-12
+  GET /? 2018-7-4-16-14-19
+  GET /articles? 2018-7-4-16-14-20
+  GET /articles/ 2018-7-4-16-16-43
+  GET /? 2018-7-4-16-24-16
+  GET /articles? 2018-7-4-16-24-17
+  GET /articles 2018-7-4-16-24-25
+  GET /articles? 2018-7-4-16-25-5
+  GET / 2018-7-4-16-25-26
+  GET /products? 2018-7-4-16-25-27
+  GET /? 2018-7-4-16-25-28
+  GET /articles? 2018-7-4-16-25-29
+  GET /articles? 2018-7-4-16-25-56
+  GET /articles/new? 2018-7-4-16-26-0
+  GET /? 2018-7-4-16-26-1
+  GET /articles? 2018-7-4-16-27-44
+  GET /? 2018-7-4-16-27-46
+  GET /products? 2018-7-4-16-27-47
+  GET /products/5 2018-7-4-16-27-49
+  POST /products/5/edit 2018-7-4-16-27-50
+  GET /products? 2018-7-4-16-27-51
+  GET /products/5 2018-7-4-16-27-52
+  GET /products? 2018-7-4-16-27-53
+  GET /products/new? 2018-7-4-16-27-54
+  GET /? 2018-7-4-16-27-57
+  GET /products? 2018-7-4-16-28-2
+  GET /products/new? 2018-7-4-16-28-3
+  GET /? 2018-7-4-16-28-4
+  GET /products? 2018-7-4-16-29-51
+  GET /products/new? 2018-7-4-16-29-52
+  GET /products? 2018-7-4-16-29-52
+  GET /products/new? 2018-7-4-16-29-54
+  GET /products? 2018-7-4-16-29-54
+  GET /? 2018-7-4-16-29-56
+  GET /articles? 2018-7-4-16-29-56
+  GET /articles/new? 2018-7-4-16-29-58
+  GET /articles? 2018-7-4-16-29-59
+  GET /? 2018-7-4-16-30-0
+  GET /products? 2018-7-4-16-30-2
+  GET /products/6 2018-7-4-16-30-4
+  POST /products/6 2018-7-4-16-30-4
+  GET /products 2018-7-4-16-30-4
+  GET /products/new? 2018-7-4-16-30-5
+  GET /products? 2018-7-4-16-30-6
+  GET /? 2018-7-4-16-30-7
   

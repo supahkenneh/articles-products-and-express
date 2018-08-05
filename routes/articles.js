@@ -3,6 +3,9 @@ const router = express.Router();
 const db = require('../db/knex');
 const helpers = require('../helpers/helpers')
 const validations = require('../middleware/validations');
+const checkHead = require('../middleware/articleHeaderCheck');
+
+router.use(checkHead.checkHeader);
 
 let statusMessage = {
   message: null
