@@ -74,14 +74,14 @@ function checkInputs(inputs, res) {
       message: statusMessage.message,
       product: inputs
     })
-  } else if (isNaN(parseInt(inputs.price))) {
+  } else if (isNaN(Number(inputs.price))) {
     statusMessage.message = `Error: Please enter a valid price`;
     return res.render('new', {
       showProducts: true,
       message: statusMessage.message,
       product: inputs
     })
-  } else if (isNaN(parseInt(inputs.inventory)) || inputs.inventory < 1) {
+  } else if (isNaN(Number(inputs.inventory)) || inputs.inventory < 1) {
     statusMessage.message = `Error: Please enter a number for inventory`;
     return res.render('new', {
       showProducts: true,
