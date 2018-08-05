@@ -1,0 +1,10 @@
+GET /? 2018-7-4-16-6-39GET /products? 2018-7-4-16-6-40GET /products/1 2018-7-4-16-6-59GET /products? 2018-7-4-16-7-17
+  GET /products/2 2018-7-4-16-7-20
+  GET /products? 2018-7-4-16-7-22
+  GET /products/1 2018-7-4-16-7-23
+  GET /products? 2018-7-4-16-7-24
+  GET /products/5 2018-7-4-16-7-26
+  POST /products/5/edit 2018-7-4-16-7-27
+  GET /products? 2018-7-4-16-7-29
+  GET /? 2018-7-4-16-7-32
+  

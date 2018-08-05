@@ -5,11 +5,13 @@ const bodyParser = require('body-parser');
 const articles = require('./routes/articles');
 const products = require(`./routes/products`);
 const exphbs = require('express-handlebars');
+const analytics = require('./middleware/analytics');
 const PORT = process.env.port || 3005;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('./public'));
+app.use(analytics.analyticLogger);
 
 /***** METHOD OVERRIDE *****/
 app.use(methodOverride((req, res) => {
@@ -52,5 +54,4 @@ app.listen(PORT, () => {
 
 //TO DO:
 //middleware
-//error messages
-//existing title bug
+//steve rogers
