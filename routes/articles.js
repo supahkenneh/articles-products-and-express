@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/knex');
 const articles = require('../helpers/helpers')
+const validations = require('../middleware/validations');
 
 let statusMessage = {
   message: null
@@ -58,21 +59,9 @@ router.get('/:urltitle/edit', (req, res) => {
 });
 
 /************* METHODS *************/
-router.post('/', (req, res) => {
+router.post('/', validations.validateArticleInput, (req, res) => {
   const data = req.body;
-  db.select().from('articles').where('title', data.title)
-    .then(result => {
-      if (result.length > 1) {
-        res.render('new', {
-          showArticles: true,
-          message: `Article already exists, consider changing the name?`
-        })
-      }
-      return result;
-    })
-    .then(result => {
-      return articles.addArticle(data);
-    })
+  articles.addArticle(data)
     .then(result => {
       res.redirect('/articles');
     })

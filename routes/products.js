@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/knex');
-const products = require('../helpers/helpers');
+const helpers = require('../helpers/helpers');
 const validations = require('../middleware/validations');
 
 let statusMessage = {
@@ -23,7 +23,6 @@ router.get('/', (req, res) => {
 });
 
 router.get('/new', (req, res) => {
-  console.log(statusMessage.message);
   res.render('new', {
     showProducts: true,
     message: statusMessage.message
@@ -33,7 +32,7 @@ router.get('/new', (req, res) => {
 
 router.get('/:id', validations.validateProduct, (req, res) => {
   const id = req.params.id;
-  products.selectAllProducts(id)
+  helpers.selectAllProducts(id)
     .then(result => {
       res.render('product', {
         product: result[0]
@@ -44,7 +43,7 @@ router.get('/:id', validations.validateProduct, (req, res) => {
 
 router.get('/:id/edit', validations.validateProduct,(req, res) => {
   const id = req.params.id;
-  products.selectAllProducts(id)
+  helpers.selectAllProducts(id)
     .then(result => {
       res.render('edit', {
         showProducts: true,
@@ -57,7 +56,7 @@ router.get('/:id/edit', validations.validateProduct,(req, res) => {
 /************* METHODS *************/
 router.post('/', validations.validateItemInput, (req, res) => {
   const data = req.body;
-  return products.addProduct(data)
+  return helpers.addProduct(data)
     .then(result => {
       res.redirect('/products');
     })
@@ -67,7 +66,7 @@ router.post('/', validations.validateItemInput, (req, res) => {
 router.put('/:id', validations.validateProduct, (req, res) => {
   const id = req.params.id;
   const data = req.body;
-  products.updateProduct(id, data)
+  helpers.updateProduct(id, data)
     .then(result => {
       res.redirect(`/products/${id}`)
     })
@@ -76,7 +75,7 @@ router.put('/:id', validations.validateProduct, (req, res) => {
 
 router.delete('/:id', validations.validateProduct, (req, res) => {
   const id = Number(req.params.id);
-  products.deleteProduct(id)
+  helpers.deleteProduct(id)
     .then(result => {
       statusMessage.message = 'Item successfully deleted!';
       res.redirect('/products');

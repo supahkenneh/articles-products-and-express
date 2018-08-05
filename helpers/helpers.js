@@ -16,12 +16,17 @@ function selectAllArticles(url) {
   return db.select().from('articles').where('urltitle', url)
 };
 
+function findDupes(request) {
+  const suspect = encodeURI(request.title.toLowerCase());
+  return db.select().from('articles').where('urltitle', suspect)
+};
+
 function updateArticle(url, data) {
   return db('articles').where('urltitle', url).update({
     title: data.title,
     author: data.author,
     content: data.content,
-    urltitle: encodeURI(data.title)
+    urltitle: encodeURI(data.title.toLowerCase())
   })
 };
 
@@ -54,5 +59,6 @@ module.exports = {
   deleteProduct,
   deleteArticle,
   addProduct,
-  addArticle
+  addArticle,
+  findDupes
 };
