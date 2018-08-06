@@ -128,4 +128,27 @@ GET /? 2018-7-4-16-6-39GET /products? 2018-7-4-16-6-40GET /products/1 2018-7-4-1
   GET /? 2018-7-4-17-11-0
   GET /products? 2018-7-4-17-11-1
   GET /? 2018-7-4-17-11-2
+  GET /articles? 2018-7-4-18-5-14
+  GET /articles/i%20am%20groot 2018-7-4-18-8-17
+  GET /articles? 2018-7-4-18-8-19
+  GET /articles/i%20am%20groot 2018-7-4-18-8-22
+  GET /articles? 2018-7-4-18-8-26
+  GET /articles/i%20am%20groot%20ii 2018-7-4-18-8-27
+  GET /articles? 2018-7-4-18-8-29
+  GET /articles/i%20am%20steve%20rogers 2018-7-4-18-8-30
+  GET /articles? 2018-7-4-18-8-34
+  GET /? 2018-7-4-18-8-34
+  GET /products? 2018-7-4-18-8-36
+  GET /? 2018-7-4-18-8-43
+  GET /products? 2018-7-4-18-13-33
+  GET /products/1 2018-7-4-18-13-37
+  GET /products? 2018-7-4-18-13-42
+  GET /products/1 2018-7-4-18-13-48
+  GET /products/1 2018-7-4-18-14-1
+  POST /products/1 2018-7-4-18-14-6
+  GET /products 2018-7-4-18-14-6
+  POST /products/1 2018-7-4-18-14-10
+  GET /products/1 2018-7-4-18-14-35
+  GET /products? 2018-7-4-18-14-36
+  GET /products? 2018-7-4-18-14-45
   

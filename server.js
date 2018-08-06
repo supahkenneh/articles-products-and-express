@@ -51,6 +51,3 @@ app.use((err, res, req, next) => {
 app.listen(PORT, () => {
   console.log('Server initiated!')
 });;
-
-//TO DO:
-//404s
